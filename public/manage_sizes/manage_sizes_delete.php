@@ -2,61 +2,62 @@
 session_start();
 require_once('../../database/connection.php');
 include_once('../components/header.php');
-// Cek apakah user sudah login
+
+// Check if the user is logged in
 if (!isset($_SESSION['UserID'])) {
     header('Location: login.php');
     exit();
 }
 
-// Cek apakah ID pengguna (user) disediakan dalam parameter query
+// Check if the size ID is provided in the query parameters
 if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
-    // Redirect ke halaman error atau lokasi yang sesuai
+    // Redirect to an error page or an appropriate location
     header('Location: error.php');
     exit();
 }
 
-$id = $_GET['id'];
+$sizeID = $_GET['id'];
 
-// Inisialisasi pesan sukses dan pesan error
+// Initialize success and error messages
 $success_message = '';
 $error_message = '';
 
-// Lakukan penghapusan catatan terkait dari tabel "logactivity"
-$query = "DELETE FROM LogActivities WHERE UserID = ?";
+// Perform deletion of related records from the "logactivity" table
+$query = "DELETE FROM LogActivities WHERE SizeID = ?";
 $stmt = $conn->prepare($query);
-$stmt->bind_param('i', $id);
+$stmt->bind_param('i', $sizeID);
 
 if ($stmt->execute()) {
-    // Penghapusan catatan terkait berhasil
+    // Deletion of related records successful
     $stmt->close();
 
-    // Sekarang, kita bisa melanjutkan dengan menghapus pengguna
-    $query = "DELETE FROM Users WHERE UserID = ?";
+    // Now, proceed with deleting the size
+    $query = "DELETE FROM Sizes WHERE SizeID = ?";
     $stmt = $conn->prepare($query);
-    $stmt->bind_param('i', $id);
+    $stmt->bind_param('i', $sizeID);
 
     if ($stmt->execute()) {
-        // Deskripsi aktivitas
-        $activityDescription = "User with UserID: $id has been deleted.";
+        // Activity description
+        $activityDescription = "Size with SizeID: $sizeID has been deleted.";
 
         $currentUserID = $_SESSION['UserID'];
         insertLogActivity($conn, $currentUserID, $activityDescription);
 
-        // Penghapusan pengguna berhasil
+        // Size deletion successful
         $stmt->close();
-        $success_message = "Pengguna berhasil dihapus!";
+        $success_message = "Size berhasil dihapus!";
     } else {
-        // Penghapusan pengguna gagal
+        // Size deletion failed
         $stmt->close();
-        $error_message = "Gagal menghapus pengguna.";
+        $error_message = "Gagal menghapus size.";
     }
 } else {
-    // Penghapusan catatan terkait gagal
+    // Deletion of related records failed
     $stmt->close();
     $error_message = "Gagal menghapus catatan terkait dari logactivity.";
 }
 
-// Tampilkan pesan sukses atau pesan error dengan SweetAlert2
+// Display success or error message using SweetAlert2
 if (!empty($success_message)) {
     echo "<script>
     Swal.fire({
@@ -66,7 +67,7 @@ if (!empty($success_message)) {
         showConfirmButton: false,
         timer: 1500
     }).then(function() {
-        window.location.href = 'manage_users_list.php'; // Redirect ke halaman daftar pengguna
+        window.location.href = 'manage_sizes_list.php'; // Redirect to the size list page
     });
     </script>";
 } elseif (!empty($error_message)) {
@@ -78,7 +79,7 @@ if (!empty($success_message)) {
         showConfirmButton: false,
         timer: 1500
     }).then(function() {
-        window.location.href = 'manage_users_list.php'; // Redirect ke halaman daftar pengguna
+        window.location.href = 'manage_sizes_list.php'; // Redirect to the size list page
     });
     </script>";
 }
