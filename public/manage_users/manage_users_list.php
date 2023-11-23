@@ -72,7 +72,7 @@ $errors = array();
                             $searchTerm = isset($_GET['search']) ? $_GET['search'] : '';
                             $page = isset($_GET['page']) ? $_GET['page'] : 1;
                             $query = "SELECT u.UserID, u.Username, u.Email, r.RoleName, u.LastLogin FROM Users u
-                                      LEFT JOIN Role r ON u.RoleID = r.RoleID
+                                      LEFT JOIN Roles r ON u.RoleID = r.RoleID
                                       WHERE u.Username LIKE '%$searchTerm%' OR u.Email LIKE '%$searchTerm%'
                                       LIMIT 15 OFFSET " . ($page - 1) * 15;
                             $result = $conn->query($query);
@@ -102,6 +102,10 @@ $errors = array();
                                             <i class='fas fa-edit mr-2'></i>
                                             <span>Edit</span>
                                         </a>
+                                        <button onclick="changeRole(<?php echo $row['UserID']; ?>)" class='bg-yellow-500 hover-bg-yellow-700 text-white font-bold py-2 px-4 rounded inline-flex items-center text-sm'>
+                                            <i class='fas fa-exchange-alt mr-2'></i>
+                                            <span>Change Role</span>
+                                        </button>
                                         <a href="#" onclick="confirmDelete(<?php echo $row['UserID']; ?>)" class='bg-red-500 hover-bg-red-700 text-white font-bold py-2 px-4 rounded inline-flex items-center text-sm'>
                                             <i class='fas fa-trash mr-2'></i>
                                             <span>Delete</span>
@@ -203,6 +207,27 @@ $errors = array();
                 // If the user confirms, redirect to the delete page
                 window.location.href = `manage_users_delete.php?id=${userID}`;
             }
+        });
+    }
+</script>
+<script>
+    // Function to show a confirmation dialog for changing role
+    function changeRole(userID) {
+        Swal.fire({
+            title: 'Change User Role',
+            input: 'select',
+            inputOptions: {
+                'Administrator': 'Administrator',
+                'Pengelola Stok': 'Pengelola Stok',
+            },
+            inputPlaceholder: 'Select a role',
+            showCancelButton: true,
+            confirmButtonText: 'Change',
+            cancelButtonText: 'Cancel',
+            preConfirm: (role) => {
+                // Handle the role change here, e.g., redirect to manage_users_change_role.php
+                window.location.href = `manage_users_change_role.php?id=${userID}&role=${role}`;
+            },
         });
     }
 </script>

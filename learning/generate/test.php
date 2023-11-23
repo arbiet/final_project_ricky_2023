@@ -15,8 +15,8 @@ if ($conn->connect_error) {
 $default_password = "12345678";
 $hashed_default_password = hash('sha256', $default_password);
 
-// Update semua kata sandi dalam tabel users
-$sql = "UPDATE users SET password = '$hashed_default_password'";
+// Update semua kata sandi dalam tabel Users
+$sql = "UPDATE Users SET password = '$hashed_default_password'";
 if ($conn->query($sql) === TRUE) {
     echo "All passwords updated successfully.";
 } else {
