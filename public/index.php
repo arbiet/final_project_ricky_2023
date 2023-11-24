@@ -30,7 +30,7 @@ if (isset($_SESSION['UserID'])) {
 </head>
 
 <body class="overflow-hidden">
-    <!-- Main Content Height Menyesuaikan Hasil Kurang dari Header dan Footer -->
+    
     <div class="h-screen flex flex-col">
         <!-- Top Navbar -->
         <nav class="flex items-center justify-between flex-wrap bg-gray-800 p-6">

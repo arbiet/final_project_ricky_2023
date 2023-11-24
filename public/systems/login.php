@@ -98,7 +98,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 $conn->close();
 ?>
 
-<!-- Main Content Height Menyesuaikan Hasil Kurang dari Header dan Footer -->
+
 <div class="h-screen flex flex-col">
     <!-- Top Navbar -->
     <?php include('../components/navbar.php'); ?>

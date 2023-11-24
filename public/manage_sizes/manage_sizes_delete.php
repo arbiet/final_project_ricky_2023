@@ -23,9 +23,10 @@ $success_message = '';
 $error_message = '';
 
 // Perform deletion of related records from the "logactivity" table
-$query = "DELETE FROM LogActivities WHERE SizeID = ?";
+$query = "DELETE FROM LogActivities WHERE ActivityDescription LIKE ?";
 $stmt = $conn->prepare($query);
-$stmt->bind_param('i', $sizeID);
+$sizeDescription = "%SizeID: $sizeID%";
+$stmt->bind_param('s', $sizeDescription);
 
 if ($stmt->execute()) {
     // Deletion of related records successful
@@ -41,7 +42,8 @@ if ($stmt->execute()) {
         $activityDescription = "Size with SizeID: $sizeID has been deleted.";
 
         $currentUserID = $_SESSION['UserID'];
-        insertLogActivity($conn, $currentUserID, $activityDescription);
+        // Assuming you have a function insertLogActivity, call it here
+        // insertLogActivity($conn, $currentUserID, $activityDescription);
 
         // Size deletion successful
         $stmt->close();

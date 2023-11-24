@@ -59,7 +59,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         $currentUserID = $_SESSION['UserID'];
         // Assuming you have a function insertLogActivity, call it here
-        // insertLogActivity($conn, $currentUserID, $activityDescription);
+        insertLogActivity($conn, $currentUserID, $activityDescription);
 
         // Display success notification and redirect
         echo '<script>
@@ -90,7 +90,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 // Close the database connection
 ?>
 
-<!-- Main Content Height Menyesuaikan Hasil Kurang dari Header dan Footer -->
+
 <div class="h-screen flex flex-col">
     <!-- Top Navbar -->
     <?php include('../components/navbar.php'); ?>

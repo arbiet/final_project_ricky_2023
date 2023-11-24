@@ -1,0 +1,146 @@
+<?php
+// Initialize the session
+session_start();
+// Include the connection file
+require_once('../../database/connection.php');
+
+// Initialize variables
+$brandName = '';
+$errors = array();
+
+?>
+<?php include_once('../components/header.php'); ?>
+
+<div class="h-screen flex flex-col">
+    <!-- Top Navbar -->
+    <?php include('../components/navbar.php'); ?>
+    <!-- End Top Navbar -->
+    <!-- Main Content -->
+    <div class="flex-grow bg-gray-50 flex flex-row shadow-md">
+        <!-- Sidebar -->
+        <?php include('../components/sidebar.php'); ?>
+        <!-- End Sidebar -->
+
+        <!-- Main Content -->
+        <main class="bg-gray-50 flex flex-col flex-1 overflow-y-scroll h-screen flex-shrink-0 sc-hide pb-40">
+            <div class="flex items-start justify-start p-6 shadow-md m-4 flex-1 flex-col">
+                <!-- Header Content -->
+                <div class="flex flex-row justify-between items-center w-full border-b-2 border-gray-600 mb-2 pb-2">
+                    <h1 class="text-3xl text-gray-800 font-semibol w-full">Brands</h1>
+                    <div class="flex flex-row justify-end items-center">
+                        <a href="<?php echo $baseUrl; ?>public/manage_brands/manage_brands_create.php" class="bg-green-500 hover-bg-green-700 text-white font-bold py-2 px-4 rounded inline-flex items-center">
+                            <i class="fas fa-plus mr-2"></i>
+                            <span>Create</span>
+                        </a>
+                    </div>
+                </div>
+                <!-- End Header Content -->
+                <!-- Content -->
+                <div class="flex flex-col w-full">
+                    <!-- Include Search Bar -->
+                    <?php include('../components/search_manage.php'); ?>
+                    <!-- Brand List -->
+                    <div class="grid grid-cols-1 gap-4">
+                        <?php
+                        // Fetch brand data from the database
+                            $searchTerm = isset($_GET['search']) ? $_GET['search'] : '';
+                            $page = isset($_GET['page']) ? $_GET['page'] : 1;
+                            $query = "SELECT * FROM Brands
+                                      WHERE BrandName LIKE '%$searchTerm%'
+                                         OR BrandImage LIKE '%$searchTerm%'
+                                         OR BrandCountry LIKE '%$searchTerm%'
+                                         OR BrandWebsite LIKE '%$searchTerm%'
+                                      LIMIT 10 OFFSET " . ($page - 1) * 10;
+                            $result = $conn->query($query);
+
+                            // Count total rows in the table
+                            $queryCount = "SELECT COUNT(*) AS count FROM Brands 
+                                           WHERE BrandName LIKE '%$searchTerm%'
+                                              OR BrandImage LIKE '%$searchTerm%'
+                                              OR BrandCountry LIKE '%$searchTerm%'
+                                              OR BrandWebsite LIKE '%$searchTerm%'";
+                            $resultCount = $conn->query($queryCount);
+                            $rowCount = $resultCount->fetch_assoc()['count'];
+                            $totalPage = ceil($rowCount / 10);
+                            $no = 1;
+
+                            // Loop through the results and display data in rows
+                            while ($row = $result->fetch_assoc()) {
+                        ?>
+                            <div class="bg-white p-4 shadow-md rounded-md mb-4">
+                                <div class="flex flex-row justify-between items-center">
+                                    <div class="flex items-start">
+                                        <img src="../static/image/brands/<?php echo $row['BrandImage']; ?>" alt="<?php echo $row['BrandName']; ?>" class="h-32 w-32 object-cover rounded-full mr-4">
+                                        <div>
+                                            <h2 class="text-lg font-semibold text-gray-800"><?php echo $row['BrandName']; ?></h2>
+                                            <p class="text-gray-600">
+                                                <i class="fas fa-map-marker-alt"></i>
+                                                <?php echo $row['BrandCountry']; ?>
+                                            </p>
+                                            <p class="text-gray-600">
+                                                <i class="fas fa-globe"></i>
+                                                <a href="<?php echo $row['BrandWebsite']; ?>" target="_blank" class="text-blue-500 hover:underline"><?php echo $row['BrandWebsite']; ?></a>
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class='flex justify-end space-x-2 items-end'>
+                                        <a href="<?php echo $baseUrl; ?>public/manage_brands/manage_brands_detail.php?id=<?php echo $row['BrandID'] ?>" class='bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded inline-flex items-center text-sm'>
+                                            <i class='fas fa-eye mr-2'></i>
+                                            <span>Detail</span>
+                                        </a>
+                                        <a href="<?php echo $baseUrl; ?>public/manage_brands/manage_brands_update.php?id=<?php echo $row['BrandID'] ?>" class='bg-blue-500 hover-bg-blue-700 text-white font-bold py-2 px-4 rounded inline-flex items-center text-sm'>
+                                            <i class='fas fa-edit mr-2'></i>
+                                            <span>Edit</span>
+                                        </a>
+                                        <button onclick="confirmDelete(<?php echo $row['BrandID']; ?>)" class='bg-red-500 hover-bg-red-700 text-white font-bold py-2 px-4 rounded inline-flex items-center text-sm'>
+                                            <i class='fas fa-trash mr-2'></i>
+                                            <span>Delete</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        <?php
+                        }
+                        if ($result->num_rows === 0) {
+                        ?>
+                            <p class="text-center text-gray-600">No data found.</p>
+                        <?php
+                        }
+                        ?>
+                    </div>
+                    <!-- End Brand List -->
+
+                </div>
+                <!-- End Content -->
+                <!-- Include pagination -->
+                <?php include('../components/pagination.php'); ?>
+        </main>
+        <!-- End Main Content -->
+    </div>
+    <!-- End Main Content -->
+    <!-- Footer -->
+    <?php include('../components/footer.php'); ?>
+    <!-- End Footer -->
+</div>
+<!-- End Main Content -->
+<script>
+    // Function to show a confirmation dialog
+    function confirmDelete(brandID) {
+        Swal.fire({
+            title: 'Are you sure?',
+            text: 'You won\'t be able to revert this!',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Yes, delete it!',
+            cancelButtonText: 'No, cancel'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // If the user confirms, redirect to the delete page
+                window.location.href = `manage_brands_delete.php?id=${brandID}`;
+            }
+        });
+    }
+</script>
+</body>
+
+</html>

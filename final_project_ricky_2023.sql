@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 23, 2023 at 11:58 PM
+-- Generation Time: Nov 24, 2023 at 11:32 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -294,7 +294,16 @@ INSERT INTO `LogActivities` (`LogID`, `UserID`, `ActivityDescription`, `Activity
 (19, 137648118, 'User logged in', '2023-11-23 19:19:50'),
 (20, 137648118, 'User logged in', '2023-11-23 20:48:14'),
 (21, 137648118, 'User with Username: asfasgasg has been created with the following details - Full Name: asfasgasg, Role: 1, Account Status: Active, Activation Status: Activated.', '2023-11-23 21:12:30'),
-(22, 137648118, 'User with UserID: 2147483647 has been deleted.', '2023-11-23 21:12:42');
+(22, 137648118, 'User with UserID: 2147483647 has been deleted.', '2023-11-23 21:12:42'),
+(23, 137648118, 'User logged in', '2023-11-23 23:45:50'),
+(24, 137648118, 'User logged out', '2023-11-24 00:08:22'),
+(25, 137648118, 'User logged in', '2023-11-24 00:08:27'),
+(26, 137648118, 'User logged out', '2023-11-24 00:15:31'),
+(27, 137648118, 'User logged in', '2023-11-24 00:15:37'),
+(28, 137648118, 'User logged out', '2023-11-24 07:10:56'),
+(29, 137648118, 'User logged in', '2023-11-24 07:11:02'),
+(30, 137648118, 'User logged out', '2023-11-24 07:59:20'),
+(31, 137648118, 'User logged in', '2023-11-24 07:59:30');
 
 -- --------------------------------------------------------
 
@@ -5416,55 +5425,22 @@ INSERT INTO `Sizes` (`SizeID`, `SizeName`, `SizeCode`, `WearType`, `Gender`) VAL
 (6, 'XS', 'XS', 'Tops', 'Unisex'),
 (7, 'XXL', 'XXL', 'Tops', 'Unisex'),
 (8, '3XL', '3XL', 'Tops', 'Unisex'),
-(9, '4XL', '4XL', 'Tops', 'Unisex'),
-(10, '5XL', '5XL', 'Tops', 'Unisex'),
-(11, '6XL', '6XL', 'Tops', 'Unisex'),
-(12, '7XL', '7XL', 'Tops', 'Unisex'),
-(13, '8XL', '8XL', 'Tops', 'Unisex'),
-(14, '9XL', '9XL', 'Tops', 'Unisex'),
-(15, '10XL', '10XL', 'Tops', 'Unisex'),
-(16, 'XXL Tall', 'XXL-T', 'Tops', 'Unisex'),
-(17, 'XXXL Tall', 'XXXL-T', 'Tops', 'Unisex'),
-(18, 'XXXXL Tall', 'XXXXL-T', 'Tops', 'Unisex'),
-(19, 'One Size', 'OS', 'Tops', 'Unisex'),
-(20, 'Small', 'S', 'Tops', 'Female'),
-(21, 'Medium', 'M', 'Tops', 'Female'),
-(22, 'Large', 'L', 'Tops', 'Female'),
-(23, 'XL', 'XL', 'Tops', 'Female'),
-(24, 'XXS', 'XXS', 'Tops', 'Female'),
-(25, 'XS', 'XS', 'Tops', 'Female'),
-(26, 'XXL', 'XXL', 'Tops', 'Female'),
-(27, '3XL', '3XL', 'Tops', 'Female'),
-(28, '4XL', '4XL', 'Tops', 'Female'),
-(29, '5XL', '5XL', 'Tops', 'Female'),
-(30, '6XL', '6XL', 'Tops', 'Female'),
-(31, '7XL', '7XL', 'Tops', 'Female'),
-(32, '8XL', '8XL', 'Tops', 'Female'),
-(33, '9XL', '9XL', 'Tops', 'Female'),
-(34, '10XL', '10XL', 'Tops', 'Female'),
-(35, 'XXL Tall', 'XXL-T', 'Tops', 'Female'),
-(36, 'XXXL Tall', 'XXXL-T', 'Tops', 'Female'),
-(37, 'XXXXL Tall', 'XXXXL-T', 'Tops', 'Female'),
-(38, 'One Size', 'OS', 'Tops', 'Female'),
-(39, 'Small', 'S', 'Tops', 'Male'),
-(40, 'Medium', 'M', 'Tops', 'Male'),
-(41, 'Large', 'L', 'Tops', 'Male'),
-(42, 'XL', 'XL', 'Tops', 'Male'),
-(43, 'XXS', 'XXS', 'Tops', 'Male'),
-(44, 'XS', 'XS', 'Tops', 'Male'),
-(45, 'XXL', 'XXL', 'Tops', 'Male'),
-(46, '3XL', '3XL', 'Tops', 'Male'),
-(47, '4XL', '4XL', 'Tops', 'Male'),
-(48, '5XL', '5XL', 'Tops', 'Male'),
-(49, '6XL', '6XL', 'Tops', 'Male'),
-(50, '7XL', '7XL', 'Tops', 'Male'),
-(51, '8XL', '8XL', 'Tops', 'Male'),
-(52, '9XL', '9XL', 'Tops', 'Male'),
-(53, '10XL', '10XL', 'Tops', 'Male'),
-(54, 'XXL Tall', 'XXL-T', 'Tops', 'Male'),
-(55, 'XXXL Tall', 'XXXL-T', 'Tops', 'Male'),
-(56, 'XXXXL Tall', 'XXXXL-T', 'Tops', 'Male'),
-(57, 'One Size', 'OS', 'Tops', 'Male');
+(9, 'Small', 'S', 'Tops', 'Female'),
+(10, 'Medium', 'M', 'Tops', 'Female'),
+(11, 'Large', 'L', 'Tops', 'Female'),
+(12, 'XL', 'XL', 'Tops', 'Female'),
+(13, 'XXS', 'XXS', 'Tops', 'Female'),
+(14, 'XS', 'XS', 'Tops', 'Female'),
+(15, 'XXL', 'XXL', 'Tops', 'Female'),
+(16, '3XL', '3XL', 'Tops', 'Female'),
+(17, 'Small', 'S', 'Tops', 'Male'),
+(18, 'Medium', 'M', 'Tops', 'Male'),
+(19, 'Large', 'L', 'Tops', 'Male'),
+(20, 'XL', 'XL', 'Tops', 'Male'),
+(21, 'XXS', 'XXS', 'Tops', 'Male'),
+(22, 'XS', 'XS', 'Tops', 'Male'),
+(23, 'XXL', 'XXL', 'Tops', 'Male'),
+(24, '3XL', '3XL', 'Tops', 'Male');
 
 -- --------------------------------------------------------
 
@@ -5510,7 +5486,7 @@ CREATE TABLE `Users` (
 
 INSERT INTO `Users` (`UserID`, `Username`, `Password`, `Email`, `FullName`, `DateOfBirth`, `Gender`, `Address`, `PhoneNumber`, `RoleID`, `AccountCreationDate`, `LastLogin`, `AccountStatus`, `ProfilePictureURL`, `ActivationStatus`) VALUES
 (0, 'ikimukti', 'ef797c8118f02dfb649607dd5d3f8c7623048c9c063d532cc95c5ed7a898a64f', '19103020046@unpkediri.ac.id', 'Firmansyah Mukti Wijaya', '2023-10-12', 'Male', 'Nglaban 1111', '081216318022', 2, '2023-11-23 19:23:09', '2023-10-29 20:04:55', NULL, '653e5a409b4fb.jpeg', NULL),
-(137648118, 'admin', 'ef797c8118f02dfb649607dd5d3f8c7623048c9c063d532cc95c5ed7a898a64f', 'admin@ikimukti.com', 'Administrator', NULL, NULL, NULL, NULL, 1, '2023-11-23 20:48:14', '2023-11-24 03:48:14', NULL, 'default.png', NULL);
+(137648118, 'admin', 'ef797c8118f02dfb649607dd5d3f8c7623048c9c063d532cc95c5ed7a898a64f', 'admin@ikimukti.com', 'Administrator', NULL, NULL, NULL, NULL, 1, '2023-11-24 07:59:30', '2023-11-24 14:59:30', NULL, 'default.png', NULL);
 
 --
 -- Indexes for dumped tables
@@ -5595,7 +5571,7 @@ ALTER TABLE `Users`
 -- AUTO_INCREMENT for table `Brands`
 --
 ALTER TABLE `Brands`
-  MODIFY `BrandID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=64;
+  MODIFY `BrandID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=65;
 
 --
 -- AUTO_INCREMENT for table `Categories`
@@ -5613,7 +5589,7 @@ ALTER TABLE `Colors`
 -- AUTO_INCREMENT for table `LogActivities`
 --
 ALTER TABLE `LogActivities`
-  MODIFY `LogID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `LogID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
 -- AUTO_INCREMENT for table `Products`
@@ -5625,7 +5601,13 @@ ALTER TABLE `Products`
 -- AUTO_INCREMENT for table `Sizes`
 --
 ALTER TABLE `Sizes`
-  MODIFY `SizeID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=58;
+  MODIFY `SizeID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+
+--
+-- AUTO_INCREMENT for table `Stocks`
+--
+ALTER TABLE `Stocks`
+  MODIFY `StockID` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- Constraints for dumped tables
@@ -5655,7 +5637,6 @@ ALTER TABLE `Products`
 --
 ALTER TABLE `Stocks`
   ADD CONSTRAINT `stocks_ibfk_1` FOREIGN KEY (`ProductID`) REFERENCES `products` (`ProductID`) ON DELETE SET NULL ON UPDATE SET NULL,
-  ADD CONSTRAINT `stocks_ibfk_2` FOREIGN KEY (`SizeID`) REFERENCES `sizes` (`SizeID`) ON DELETE SET NULL ON UPDATE SET NULL,
   ADD CONSTRAINT `stocks_ibfk_3` FOREIGN KEY (`ColorID`) REFERENCES `colors` (`ColorID`) ON DELETE SET NULL ON UPDATE SET NULL;
 
 --
