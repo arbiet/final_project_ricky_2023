@@ -40,7 +40,7 @@ $errors = array();
                         $searchTerm = isset($_GET['search']) ? $_GET['search'] : '';
                         $page = isset($_GET['page']) ? $_GET['page'] : 1;
                         $query = "SELECT s.StockID, s.ProductID, p.ProductName, p.ProductImage, p.Description, p.Price, c.CategoryName, b.BrandName, s.Quantity,
-                                  sz.SizeName, sz.SizeCode, sz.WearType, sz.Gender,
+                                  sz.SizeName, sz.SizeCode,
                                   clr.ColorName
                                   FROM Stocks s
                                   INNER JOIN Products p ON s.ProductID = p.ProductID
@@ -119,7 +119,7 @@ $errors = array();
                                                         Color: <?php echo $row['ColorName']; ?>
                                                     </p>
                                                 </div>
-                        </div>
+                                            </div>
                                         </div>
                                     </div>
                                     <div class='flex justify-end space-x-2 items-end flex-col space-y-2'>
@@ -129,7 +129,7 @@ $errors = array();
                                         </div>
                                         <div>
                                             <a href="<?php echo $baseUrl; ?>public/manage_stocks/manage_stocks_in.php?id=<?php echo $row['ProductID'] ?>" class='bg-blue-500 hover-bg-blue-700 text-white font-bold py-2 px-4 rounded inline-flex items-center text-sm'>
-                                            <i class='fas fa-arrow-up mr-2'></i>
+                                                <i class='fas fa-arrow-up mr-2'></i>
                                                 <span>Stock In</span>
                                             </a>
                                             <a href="<?php echo $baseUrl; ?>public/manage_stocks/manage_stocks_out.php?id=<?php echo $row['ProductID'] ?>" class='bg-red-500 hover-bg-red-700 text-white font-bold py-2 px-4 rounded inline-flex items-center text-sm'>

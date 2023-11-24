@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 24, 2023 at 11:32 AM
+-- Generation Time: Nov 24, 2023 at 03:12 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -303,7 +303,13 @@ INSERT INTO `LogActivities` (`LogID`, `UserID`, `ActivityDescription`, `Activity
 (28, 137648118, 'User logged out', '2023-11-24 07:10:56'),
 (29, 137648118, 'User logged in', '2023-11-24 07:11:02'),
 (30, 137648118, 'User logged out', '2023-11-24 07:59:20'),
-(31, 137648118, 'User logged in', '2023-11-24 07:59:30');
+(31, 137648118, 'User logged in', '2023-11-24 07:59:30'),
+(32, 137648118, 'User logged out', '2023-11-24 10:43:02'),
+(33, 0, 'User logged in', '2023-11-24 10:43:15'),
+(34, 0, 'User logged in', '2023-11-24 11:00:57'),
+(35, 137648118, 'User logged in', '2023-11-24 13:00:16'),
+(36, 137648118, 'User logged out', '2023-11-24 13:03:26'),
+(37, 0, 'User logged in', '2023-11-24 13:03:33');
 
 -- --------------------------------------------------------
 
@@ -5396,7 +5402,7 @@ CREATE TABLE `Roles` (
 
 INSERT INTO `Roles` (`RoleID`, `RoleName`) VALUES
 (1, 'Administrator'),
-(2, 'Pengelola Stok');
+(2, 'Pengelola Toko');
 
 -- --------------------------------------------------------
 
@@ -5407,40 +5413,38 @@ INSERT INTO `Roles` (`RoleID`, `RoleName`) VALUES
 CREATE TABLE `Sizes` (
   `SizeID` int(11) NOT NULL,
   `SizeName` varchar(50) DEFAULT NULL,
-  `SizeCode` varchar(10) DEFAULT NULL,
-  `WearType` varchar(20) DEFAULT NULL,
-  `Gender` varchar(10) DEFAULT NULL
+  `SizeCode` varchar(10) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `Sizes`
 --
 
-INSERT INTO `Sizes` (`SizeID`, `SizeName`, `SizeCode`, `WearType`, `Gender`) VALUES
-(1, 'Small', 'S', 'Tops', 'Unisex'),
-(2, 'Medium', 'M', 'Tops', 'Unisex'),
-(3, 'Large', 'L', 'Tops', 'Unisex'),
-(4, 'XL', 'XL', 'Tops', 'Unisex'),
-(5, 'XXS', 'XXS', 'Tops', 'Unisex'),
-(6, 'XS', 'XS', 'Tops', 'Unisex'),
-(7, 'XXL', 'XXL', 'Tops', 'Unisex'),
-(8, '3XL', '3XL', 'Tops', 'Unisex'),
-(9, 'Small', 'S', 'Tops', 'Female'),
-(10, 'Medium', 'M', 'Tops', 'Female'),
-(11, 'Large', 'L', 'Tops', 'Female'),
-(12, 'XL', 'XL', 'Tops', 'Female'),
-(13, 'XXS', 'XXS', 'Tops', 'Female'),
-(14, 'XS', 'XS', 'Tops', 'Female'),
-(15, 'XXL', 'XXL', 'Tops', 'Female'),
-(16, '3XL', '3XL', 'Tops', 'Female'),
-(17, 'Small', 'S', 'Tops', 'Male'),
-(18, 'Medium', 'M', 'Tops', 'Male'),
-(19, 'Large', 'L', 'Tops', 'Male'),
-(20, 'XL', 'XL', 'Tops', 'Male'),
-(21, 'XXS', 'XXS', 'Tops', 'Male'),
-(22, 'XS', 'XS', 'Tops', 'Male'),
-(23, 'XXL', 'XXL', 'Tops', 'Male'),
-(24, '3XL', '3XL', 'Tops', 'Male');
+INSERT INTO `Sizes` (`SizeID`, `SizeName`, `SizeCode`) VALUES
+(1, 'Small', 'S'),
+(2, 'Medium', 'M'),
+(3, 'Large', 'L'),
+(4, 'XL', 'XL'),
+(5, 'XXS', 'XXS'),
+(6, 'XS', 'XS'),
+(7, 'XXL', 'XXL'),
+(8, '3XL', '3XL'),
+(9, 'Small', 'S'),
+(10, 'Medium', 'M'),
+(11, 'Large', 'L'),
+(12, 'XL', 'XL'),
+(13, 'XXS', 'XXS'),
+(14, 'XS', 'XS'),
+(15, 'XXL', 'XXL'),
+(16, '3XL', '3XL'),
+(17, 'Small', 'S'),
+(18, 'Medium', 'M'),
+(19, 'Large', 'L'),
+(20, 'XL', 'XL'),
+(21, 'XXS', 'XXS'),
+(22, 'XS', 'XS'),
+(23, 'XXL', 'XXL'),
+(24, '3XL', '3XL');
 
 -- --------------------------------------------------------
 
@@ -5485,8 +5489,8 @@ CREATE TABLE `Users` (
 --
 
 INSERT INTO `Users` (`UserID`, `Username`, `Password`, `Email`, `FullName`, `DateOfBirth`, `Gender`, `Address`, `PhoneNumber`, `RoleID`, `AccountCreationDate`, `LastLogin`, `AccountStatus`, `ProfilePictureURL`, `ActivationStatus`) VALUES
-(0, 'ikimukti', 'ef797c8118f02dfb649607dd5d3f8c7623048c9c063d532cc95c5ed7a898a64f', '19103020046@unpkediri.ac.id', 'Firmansyah Mukti Wijaya', '2023-10-12', 'Male', 'Nglaban 1111', '081216318022', 2, '2023-11-23 19:23:09', '2023-10-29 20:04:55', NULL, '653e5a409b4fb.jpeg', NULL),
-(137648118, 'admin', 'ef797c8118f02dfb649607dd5d3f8c7623048c9c063d532cc95c5ed7a898a64f', 'admin@ikimukti.com', 'Administrator', NULL, NULL, NULL, NULL, 1, '2023-11-24 07:59:30', '2023-11-24 14:59:30', NULL, 'default.png', NULL);
+(0, 'ikimukti', 'ef797c8118f02dfb649607dd5d3f8c7623048c9c063d532cc95c5ed7a898a64f', '19103020046@unpkediri.ac.id', 'Firmansyah Mukti Wijaya', '2023-10-12', 'Male', 'Nglaban 1111', '081216318022', 2, '2023-11-24 13:03:33', '2023-11-24 20:03:33', NULL, '653e5a409b4fb.jpeg', NULL),
+(137648118, 'admin', 'ef797c8118f02dfb649607dd5d3f8c7623048c9c063d532cc95c5ed7a898a64f', 'admin@ikimukti.com', 'Administrator', NULL, NULL, NULL, NULL, 1, '2023-11-24 13:00:16', '2023-11-24 20:00:16', NULL, 'default.png', NULL);
 
 --
 -- Indexes for dumped tables
@@ -5589,7 +5593,7 @@ ALTER TABLE `Colors`
 -- AUTO_INCREMENT for table `LogActivities`
 --
 ALTER TABLE `LogActivities`
-  MODIFY `LogID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+  MODIFY `LogID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
 
 --
 -- AUTO_INCREMENT for table `Products`

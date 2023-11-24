@@ -41,7 +41,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Check if user exists
         if ($result->num_rows === 1) {
             // Perform login actions (e.g., set sessions, redirect, etc.)
-
             $row = $result->fetch_assoc();
             $_SESSION['UserID'] = $row['UserID'];
             $_SESSION['Username'] = $row['Username'];
@@ -61,7 +60,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $updateLastLoginStmt->execute();
             $updateLastLoginStmt->close();
 
-            // Trigger a SweetAlert for successful login
+            // Determine the dashboard based on the user's role
+            $dashboardPage = ($_SESSION['RoleID'] === '1') ? 'dashboard.php' : 'dashboard_manager.php';
+
+            // Redirect the user to the appropriate dashboard
             echo '<script>
                 Swal.fire({
                     icon: "success",
@@ -70,7 +72,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     showConfirmButton: false,
                     timer: 1500
                 }).then(function(){
-                    window.location.href = "../systems/dashboard.php";
+                    window.location.href = "' . $dashboardPage . '";
                 });
             </script>';
             exit();

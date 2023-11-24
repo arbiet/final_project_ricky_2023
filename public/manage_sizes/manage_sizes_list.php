@@ -46,8 +46,6 @@ $errors = array();
                                 <th class="text-left py-1">No</th>
                                 <th class="text-left py-1">Size Name</th>
                                 <th class="text-left py-1">Size Code</th>
-                                <th class="text-left py-1">Wear Type</th>
-                                <th class="text-left py-1">Gender</th>
                                 <th class="text-left py-1">Action</th>
                             </tr>
                         </thead>
@@ -57,12 +55,12 @@ $errors = array();
                             $searchTerm = isset($_GET['search']) ? $_GET['search'] : '';
                             $page = isset($_GET['page']) ? $_GET['page'] : 1;
                             $query = "SELECT * FROM Sizes
-                                      WHERE SizeName LIKE '%$searchTerm%' OR SizeCode LIKE '%$searchTerm%' OR WearType LIKE '%$searchTerm%' OR Gender LIKE '%$searchTerm%'
+                                      WHERE SizeName LIKE '%$searchTerm%' OR SizeCode LIKE '%$searchTerm%'
                                       LIMIT 10 OFFSET " . ($page - 1) * 10;
                             $result = $conn->query($query);
 
                             // Count total rows in the table
-                            $queryCount = "SELECT COUNT(*) AS count FROM Sizes WHERE SizeName LIKE '%$searchTerm%' OR SizeCode LIKE '%$searchTerm%' OR WearType LIKE '%$searchTerm%' OR Gender LIKE '%$searchTerm%'";
+                            $queryCount = "SELECT COUNT(*) AS count FROM Sizes WHERE SizeName LIKE '%$searchTerm%' OR SizeCode LIKE '%$searchTerm%'";
                             $resultCount = $conn->query($queryCount);
                             $rowCount = $resultCount->fetch_assoc()['count'];
                             $totalPage = ceil($rowCount / 10);
@@ -75,8 +73,6 @@ $errors = array();
                                     <td class="py-1"><?php echo $no++; ?></td>
                                     <td class="py-1"><?php echo $row['SizeName']; ?></td>
                                     <td class="py-1"><?php echo $row['SizeCode']; ?></td>
-                                    <td class="py-1"><?php echo $row['WearType']; ?></td>
-                                    <td class="py-1"><?php echo $row['Gender']; ?></td>
                                     <td class='py-1'>
                                         <a href="<?php echo $baseUrl; ?>public/manage_sizes/manage_sizes_detail.php?id=<?php echo $row['SizeID'] ?>" class='bg-green-500 hover-bg-green-700 text-white font-bold py-2 px-4 rounded inline-flex items-center mr-2 text-sm'>
                                             <i class='fas fa-eye mr-2'></i>
