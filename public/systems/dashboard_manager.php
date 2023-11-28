@@ -75,12 +75,11 @@ while ($row = mysqli_fetch_assoc($categoryPerformanceResult)) {
 <div class="container mx-auto p-4">
     <!-- Top Navbar -->
     <!-- End Top Navbar -->
-
-    <div class="flex flex-row mt-4">
+    <div class="flex flex-col sm:flex-row mt-4">
         <!-- Sidebar for User Information -->
-        <div class="w-1/4 bg-white border rounded shadow-lg p-6">
+        <div class="w-full sm:w-1/4 bg-white border rounded shadow-lg p-6 mb-4 sm:mr-4 h-min">
             <!-- User Information -->
-            <div class="flex items-center space-x-4 mb-6">
+            <div class="flex items-center space-x-4 mb-6 ">
                 <img src="../static/image/profile/<?php echo $managerInfo['ProfilePictureURL']; ?>" alt="Profile Picture" class="w-16 h-16 rounded-full">
                 <div>
                     <p class="text-lg font-semibold"><?php echo $managerInfo['FullName']; ?></p>
@@ -88,31 +87,20 @@ while ($row = mysqli_fetch_assoc($categoryPerformanceResult)) {
                     <p class="text-gray-500"><?php echo $managerInfo['PhoneNumber']; ?></p>
                 </div>
             </div>
-
-            <!-- Sidebar Menu with Icons (Font Awesome) -->
-            <div class="space-y-4">
-                <a href="#" class="flex items-center space-x-4 text-gray-800 hover:bg-gray-200 rounded-lg p-2">
-                    <i class="fas fa-tachometer-alt"></i>
-                    <span>Dashboard</span>
-                </a>
-                <a href="#" class="flex items-center space-x-4 text-gray-800 hover:bg-gray-200 rounded-lg p-2">
-                    <i class="fas fa-shopping-cart"></i>
-                    <span>Kelola Produk</span>
-                </a>
-                <a href="#" class="flex items-center space-x-4 text-gray-800 hover:bg-gray-200 rounded-lg p-2">
-                    <i class="fas fa-box"></i>
-                    <span>Kelola Stok</span>
-                </a>
-            </div>
-            <!-- End Sidebar Menu -->
-
+            <?php include_once('../components/sidebar_manager.php'); ?>
         </div>
         <!-- End Sidebar -->
 
         <!-- Main Content -->
-        <main class="w-3/4 bg-white p-4">
+        <main class="w-full sm:w-3/4 bg-white p-4 overflow-y-auto max-h-screen">
             <!-- Content for Manager Dashboard -->
             <h1 class="text-3xl text-gray-800 font-semibold border-b border-gray-200 mb-4">Manager Dashboard</h1>
+
+            <!-- Stock Levels Chart -->
+            <div class="mb-4">
+                <h2 class="text-xl text-gray-700 font-semibold mb-2">Stock Levels</h2>
+                <canvas id="stockChart" width="400" height="100"></canvas>
+            </div>
 
             <!-- Stock Levels Chart -->
             <div class="mb-4">
@@ -145,6 +133,7 @@ while ($row = mysqli_fetch_assoc($categoryPerformanceResult)) {
 
     <!-- End Footer -->
 </div>
+
 
 </body>
 <script>

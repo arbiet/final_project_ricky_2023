@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 24, 2023 at 03:12 PM
+-- Generation Time: Nov 28, 2023 at 01:44 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -309,7 +309,28 @@ INSERT INTO `LogActivities` (`LogID`, `UserID`, `ActivityDescription`, `Activity
 (34, 0, 'User logged in', '2023-11-24 11:00:57'),
 (35, 137648118, 'User logged in', '2023-11-24 13:00:16'),
 (36, 137648118, 'User logged out', '2023-11-24 13:03:26'),
-(37, 0, 'User logged in', '2023-11-24 13:03:33');
+(37, 0, 'User logged in', '2023-11-24 13:03:33'),
+(38, 0, 'User logged out', '2023-11-25 03:13:44'),
+(39, 137648118, 'User logged in', '2023-11-25 03:13:50'),
+(40, 137648118, 'User logged out', '2023-11-25 03:14:17'),
+(41, 137648118, 'User logged in', '2023-11-25 03:14:27'),
+(42, 137648118, 'User logged out', '2023-11-25 03:14:47'),
+(43, 137648118, 'User logged in', '2023-11-25 03:14:52'),
+(44, 137648118, 'User logged out', '2023-11-25 03:15:10'),
+(45, 137648118, 'User logged in', '2023-11-25 03:15:15'),
+(46, 137648118, 'User logged out', '2023-11-25 03:16:08'),
+(47, 137648118, 'User logged in', '2023-11-25 03:17:19'),
+(48, 137648118, 'User logged out', '2023-11-25 03:17:23'),
+(49, 0, 'User logged in', '2023-11-25 03:17:31'),
+(50, 0, 'User logged in', '2023-11-25 03:18:19'),
+(51, 0, 'User logged out', '2023-11-25 03:32:46'),
+(52, 0, 'User logged in', '2023-11-25 03:32:59'),
+(53, 0, 'User logged out', '2023-11-25 04:35:31'),
+(54, 0, 'User logged in', '2023-11-25 04:35:37'),
+(55, 0, 'User logged out', '2023-11-25 04:46:20'),
+(56, 0, 'User logged in', '2023-11-25 04:46:33'),
+(57, 0, 'User logged in', '2023-11-25 04:49:16'),
+(58, 0, 'User logged out', '2023-11-25 11:50:43');
 
 -- --------------------------------------------------------
 
@@ -5489,8 +5510,8 @@ CREATE TABLE `Users` (
 --
 
 INSERT INTO `Users` (`UserID`, `Username`, `Password`, `Email`, `FullName`, `DateOfBirth`, `Gender`, `Address`, `PhoneNumber`, `RoleID`, `AccountCreationDate`, `LastLogin`, `AccountStatus`, `ProfilePictureURL`, `ActivationStatus`) VALUES
-(0, 'ikimukti', 'ef797c8118f02dfb649607dd5d3f8c7623048c9c063d532cc95c5ed7a898a64f', '19103020046@unpkediri.ac.id', 'Firmansyah Mukti Wijaya', '2023-10-12', 'Male', 'Nglaban 1111', '081216318022', 2, '2023-11-24 13:03:33', '2023-11-24 20:03:33', NULL, '653e5a409b4fb.jpeg', NULL),
-(137648118, 'admin', 'ef797c8118f02dfb649607dd5d3f8c7623048c9c063d532cc95c5ed7a898a64f', 'admin@ikimukti.com', 'Administrator', NULL, NULL, NULL, NULL, 1, '2023-11-24 13:00:16', '2023-11-24 20:00:16', NULL, 'default.png', NULL);
+(0, 'ikimukti', 'ef797c8118f02dfb649607dd5d3f8c7623048c9c063d532cc95c5ed7a898a64f', '19103020046@unpkediri.ac.id', 'Firmansyah Mukti Wijaya', '2023-10-12', 'Male', 'Nglaban 1111', '081216318022', 2, '2023-11-25 04:49:16', '2023-11-25 11:49:16', NULL, '653e5a409b4fb.jpeg', NULL),
+(137648118, 'admin', 'ef797c8118f02dfb649607dd5d3f8c7623048c9c063d532cc95c5ed7a898a64f', 'admin@ikimukti.com', 'Administrator', NULL, NULL, NULL, NULL, 1, '2023-11-25 03:17:19', '2023-11-25 10:17:19', NULL, 'default.png', NULL);
 
 --
 -- Indexes for dumped tables
@@ -5593,7 +5614,7 @@ ALTER TABLE `Colors`
 -- AUTO_INCREMENT for table `LogActivities`
 --
 ALTER TABLE `LogActivities`
-  MODIFY `LogID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
+  MODIFY `LogID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=59;
 
 --
 -- AUTO_INCREMENT for table `Products`

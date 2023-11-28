@@ -9,9 +9,13 @@ $username = $password = '';
 $errors = array();
 
 // Check if the user is already logged in
-if (isset($_SESSION['UserID'])) {
+if (isset($_SESSION['UserID']) && $_SESSION['RoleID'] == 1) {
     // If user is already logged in, redirect to dashboard
-    header('Location: systems/dashboard.php');
+    header('Location: dashboard.php');
+    exit();
+} elseif (isset($_SESSION['UserID']) && $_SESSION['RoleID'] == 2) {
+    // If user is already logged in, redirect to dashboard
+    header('Location: dashboard_manager.php');
     exit();
 }
 
