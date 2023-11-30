@@ -8,6 +8,24 @@ require_once('../../database/connection.php');
 $productName = '';
 $errors = array();
 
+// Fetch size options from the database
+$sizeQuery = "SELECT SizeID, SizeName FROM Sizes";
+$sizeResult = $conn->query($sizeQuery);
+$sizeOptions = '';
+
+while ($sizeRow = $sizeResult->fetch_assoc()) {
+    $sizeOptions .= "<option value='{$sizeRow['SizeID']}'>{$sizeRow['SizeName']}</option>";
+}
+
+// Fetch color options from the database
+$colorQuery = "SELECT ColorID, ColorName FROM Colors";
+$colorResult = $conn->query($colorQuery);
+$colorOptions = '';
+
+while ($colorRow = $colorResult->fetch_assoc()) {
+    $colorOptions .= "<option value='{$colorRow['ColorID']}'>{$colorRow['ColorName']}</option>";
+}
+
 ?>
 <?php include_once('../components/header.php'); ?>
 
@@ -26,7 +44,13 @@ $errors = array();
             <div class="flex items-start justify-start p-6 shadow-md m-4 flex-1 flex-col">
                 <!-- Header Content -->
                 <div class="flex flex-row justify-between items-center w-full border-b-2 border-gray-600 mb-2 pb-2">
-                    <h1 class="text-3xl text-gray-800 font-semibol w-full">Stocks</h1>
+                    <h1 class="text-3xl text-gray-800 font-semibol">Stocks</h1>
+                    <div class="flex flex-row justify-end items-center">
+                        <a href="<?php echo $baseUrl; ?>public/manage_stocks/manage_stocks_create.php" class="bg-green-500 hover-bg-green-700 text-white font-bold py-2 px-4 rounded inline-flex items-center">
+                            <i class="fas fa-plus mr-2"></i>
+                            <span>Add Stock New Product</span>
+                        </a>
+                    </div>
                 </div>
                 <!-- End Header Content -->
                 <!-- Content -->
@@ -127,14 +151,14 @@ $errors = array();
                                             <p class="text-xl font-semibold <?php echo $textColor; ?>">Qty</p>
                                         </div>
                                         <div>
-                                            <a href="<?php echo $baseUrl; ?>public/manage_stocks/manage_stocks_in.php?id=<?php echo $row['ProductID'] ?>" class='bg-blue-500 hover-bg-blue-700 text-white font-bold py-2 px-4 rounded inline-flex items-center text-sm'>
+                                            <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded inline-flex items-center text-sm stock-in-btn" data-product-id="<?php echo $row['ProductID']; ?>">
                                                 <i class='fas fa-arrow-up mr-2'></i>
                                                 <span>Stock In</span>
-                                            </a>
-                                            <a href="<?php echo $baseUrl; ?>public/manage_stocks/manage_stocks_out.php?id=<?php echo $row['ProductID'] ?>" class='bg-red-500 hover-bg-red-700 text-white font-bold py-2 px-4 rounded inline-flex items-center text-sm'>
+                                            </button>
+                                            <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded inline-flex items-center text-sm stock-out-btn" data-product-id="<?php echo $row['ProductID']; ?>">
                                                 <i class='fas fa-arrow-down mr-2'></i>
                                                 <span>Stock Out</span>
-                                            </a>
+                                            </button>
                                         </div>
                                     </div>
                                 </div>
@@ -163,5 +187,95 @@ $errors = array();
 </div>
 <!-- End Main Content -->
 </body>
+<script>
+// Event listener untuk tombol Stock In
+document.querySelectorAll('.stock-in-btn').forEach(function(button) {
+    button.addEventListener('click', function() {
+        const productId = this.getAttribute('data-product-id');
+
+        // Tampilkan Sweet Alert dengan formulir untuk Stock In
+        Swal.fire({
+            icon: 'info',
+            title: 'Stock In',
+            html: `
+                <form id="stockInForm" class="mt-4">
+                    <div class="mb-4">
+                        <label for="stockInSize" class="block text-gray-800 font-semibold">Select Size:</label>
+                        <select id="stockInSize" name="stockInSize" required class="w-full rounded-md border-gray-300 px-2 py-2 border text-gray-600">
+                            <option value="">Select Size</option>
+                            <?php echo $sizeOptions; ?>
+                        </select>
+                    </div>
+                    <div class="mb-4">
+                        <label for="stockInColor" class="block text-gray-800 font-semibold">Select Color:</label>
+                        <select id="stockInColor" name="stockInColor" required class="w-full rounded-md border-gray-300 px-2 py-2 border text-gray-600">
+                            <option value="">Select Color</option>
+                            <?php echo $colorOptions; ?>
+                        </select>
+                    </div>
+                    <div class="mb-4">
+                        <label for="stockInQuantity" class="block text-gray-800 font-semibold">Enter quantity for Stock In:</label>
+                        <input type="number" id="stockInQuantity" name="stockInQuantity" min="1" required class="w-full rounded-md border-gray-300 px-2 py-2 border text-gray-600">
+                    </div>
+                    <input type="hidden" name="productId" value="${productId}">
+                </form>
+            `,
+            showCancelButton: true,
+            confirmButtonText: 'Stock In',
+            preConfirm: function() {
+                // Proses formulir di sini (AJAX request atau sesuai kebutuhan)
+                // return Promise.resolve(); // Uncomment baris ini jika tidak ada proses AJAX
+            }
+        });
+    });
+});
+
+// Event listener untuk tombol Stock Out
+document.querySelectorAll('.stock-out-btn').forEach(function(button) {
+    button.addEventListener('click', function() {
+        const productId = this.getAttribute('data-product-id');
+
+        // Tampilkan Sweet Alert dengan formulir untuk Stock Out
+        Swal.fire({
+            icon: 'info',
+            title: 'Stock Out',
+            html: `
+                <form id="stockOutForm" class="mt-4">
+                    <div class="mb-4">
+                        <label for="stockOutSize" class="block text-gray-800 font-semibold">Select Size:</label>
+                        <select id="stockOutSize" name="stockOutSize" required class="w-full rounded-md border-gray-300 px-2 py-2 border text-gray-600">
+                            <option value="">Select Size</option>
+                            <option value="Small">Small</option>
+                            <option value="Large">Large</option>
+                            <!-- Tambahkan opsi size lain sesuai kebutuhan -->
+                        </select>
+                    </div>
+                    <div class="mb-4">
+                        <label for="stockOutColor" class="block text-gray-800 font-semibold">Select Color:</label>
+                        <select id="stockOutColor" name="stockOutColor" required class="w-full rounded-md border-gray-300 px-2 py-2 border text-gray-600">
+                            <option value="">Select Color</option>
+                            <option value="Antique Moss">Antique Moss</option>
+                            <option value="Ashley Blue">Ashley Blue</option>
+                            <!-- Tambahkan opsi color lain sesuai kebutuhan -->
+                        </select>
+                    </div>
+                    <div class="mb-4">
+                        <label for="stockOutQuantity" class="block text-gray-800 font-semibold">Enter quantity for Stock Out:</label>
+                        <input type="number" id="stockOutQuantity" name="stockOutQuantity" min="1" required class="w-full rounded-md border-gray-300 px-2 py-2 border text-gray-600">
+                    </div>
+                    <input type="hidden" name="productId" value="${productId}">
+                </form>
+            `,
+            showCancelButton: true,
+            confirmButtonText: 'Stock Out',
+            preConfirm: function() {
+                // Proses formulir di sini (AJAX request atau sesuai kebutuhan)
+                // return Promise.resolve(); // Uncomment baris ini jika tidak ada proses AJAX
+            }
+        });
+    });
+});
+</script>
+
 
 </html>
