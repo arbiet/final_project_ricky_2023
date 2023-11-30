@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 30, 2023 at 12:10 PM
+-- Generation Time: Nov 30, 2023 at 01:01 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -285,6 +285,58 @@ CREATE TABLE `LogActivities` (
   `ActivityTimestamp` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `LogActivities`
+--
+
+INSERT INTO `LogActivities` (`LogID`, `UserID`, `ActivityDescription`, `ActivityTimestamp`) VALUES
+(18, 137648118, 'User logged out', '2023-11-23 19:19:21'),
+(19, 137648118, 'User logged in', '2023-11-23 19:19:50'),
+(20, 137648118, 'User logged in', '2023-11-23 20:48:14'),
+(21, 137648118, 'User with Username: asfasgasg has been created with the following details - Full Name: asfasgasg, Role: 1, Account Status: Active, Activation Status: Activated.', '2023-11-23 21:12:30'),
+(22, 137648118, 'User with UserID: 2147483647 has been deleted.', '2023-11-23 21:12:42'),
+(23, 137648118, 'User logged in', '2023-11-23 23:45:50'),
+(24, 137648118, 'User logged out', '2023-11-24 00:08:22'),
+(25, 137648118, 'User logged in', '2023-11-24 00:08:27'),
+(26, 137648118, 'User logged out', '2023-11-24 00:15:31'),
+(27, 137648118, 'User logged in', '2023-11-24 00:15:37'),
+(28, 137648118, 'User logged out', '2023-11-24 07:10:56'),
+(29, 137648118, 'User logged in', '2023-11-24 07:11:02'),
+(30, 137648118, 'User logged out', '2023-11-24 07:59:20'),
+(31, 137648118, 'User logged in', '2023-11-24 07:59:30'),
+(32, 137648118, 'User logged out', '2023-11-24 10:43:02'),
+(33, 0, 'User logged in', '2023-11-24 10:43:15'),
+(34, 0, 'User logged in', '2023-11-24 11:00:57'),
+(35, 137648118, 'User logged in', '2023-11-24 13:00:16'),
+(36, 137648118, 'User logged out', '2023-11-24 13:03:26'),
+(37, 0, 'User logged in', '2023-11-24 13:03:33'),
+(38, 0, 'User logged out', '2023-11-25 03:13:44'),
+(39, 137648118, 'User logged in', '2023-11-25 03:13:50'),
+(40, 137648118, 'User logged out', '2023-11-25 03:14:17'),
+(41, 137648118, 'User logged in', '2023-11-25 03:14:27'),
+(42, 137648118, 'User logged out', '2023-11-25 03:14:47'),
+(43, 137648118, 'User logged in', '2023-11-25 03:14:52'),
+(44, 137648118, 'User logged out', '2023-11-25 03:15:10'),
+(45, 137648118, 'User logged in', '2023-11-25 03:15:15'),
+(46, 137648118, 'User logged out', '2023-11-25 03:16:08'),
+(47, 137648118, 'User logged in', '2023-11-25 03:17:19'),
+(48, 137648118, 'User logged out', '2023-11-25 03:17:23'),
+(49, 0, 'User logged in', '2023-11-25 03:17:31'),
+(50, 0, 'User logged in', '2023-11-25 03:18:19'),
+(51, 0, 'User logged out', '2023-11-25 03:32:46'),
+(52, 0, 'User logged in', '2023-11-25 03:32:59'),
+(53, 0, 'User logged out', '2023-11-25 04:35:31'),
+(54, 0, 'User logged in', '2023-11-25 04:35:37'),
+(55, 0, 'User logged out', '2023-11-25 04:46:20'),
+(56, 0, 'User logged in', '2023-11-25 04:46:33'),
+(57, 0, 'User logged in', '2023-11-25 04:49:16'),
+(58, 0, 'User logged out', '2023-11-25 11:50:43'),
+(59, 0, 'User logged in', '2023-11-30 11:12:45'),
+(60, 0, 'User logged out', '2023-11-30 11:20:41'),
+(61, 0, 'User logged in', '2023-11-30 11:20:58'),
+(62, 0, 'User logged out', '2023-11-30 11:22:33'),
+(63, 137648118, 'User logged in', '2023-11-30 11:22:39');
+
 -- --------------------------------------------------------
 
 --
@@ -300,6 +352,14 @@ CREATE TABLE `Products` (
   `CategoryID` int(11) DEFAULT NULL,
   `BrandID` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `Products`
+--
+
+INSERT INTO `Products` (`ProductID`, `ProductName`, `ProductImage`, `Description`, `Price`, `CategoryID`, `BrandID`) VALUES
+(1, 'Stusy', '65687190f09df_0d3827390e463d1a6e6107206d339102--muscle-tanks-pumas.jpg', 'Description Stusy', 100000.00, 1, 1),
+(2, 'Master Winks', '656871b2c571f_84b045bde5082646482c45feaa6765f0.jpg', 'Description Master Winks', 100.00, 1, 2);
 
 -- --------------------------------------------------------
 
@@ -344,23 +404,7 @@ INSERT INTO `Sizes` (`SizeID`, `SizeName`, `SizeCode`) VALUES
 (5, 'XXS', 'XXS'),
 (6, 'XS', 'XS'),
 (7, 'XXL', 'XXL'),
-(8, '3XL', '3XL'),
-(9, 'Small', 'S'),
-(10, 'Medium', 'M'),
-(11, 'Large', 'L'),
-(12, 'XL', 'XL'),
-(13, 'XXS', 'XXS'),
-(14, 'XS', 'XS'),
-(15, 'XXL', 'XXL'),
-(16, '3XL', '3XL'),
-(17, 'Small', 'S'),
-(18, 'Medium', 'M'),
-(19, 'Large', 'L'),
-(20, 'XL', 'XL'),
-(21, 'XXS', 'XXS'),
-(22, 'XS', 'XS'),
-(23, 'XXL', 'XXL'),
-(24, '3XL', '3XL');
+(8, '3XL', '3XL');
 
 -- --------------------------------------------------------
 
@@ -375,6 +419,16 @@ CREATE TABLE `Stocks` (
   `ColorID` int(11) DEFAULT NULL,
   `Quantity` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `Stocks`
+--
+
+INSERT INTO `Stocks` (`StockID`, `ProductID`, `SizeID`, `ColorID`, `Quantity`) VALUES
+(1, 1, 1, 10, 10),
+(2, 1, 3, 10, 11),
+(3, 2, 2, 22, 111),
+(4, 1, 1, 32, 11);
 
 -- --------------------------------------------------------
 
@@ -405,9 +459,8 @@ CREATE TABLE `Users` (
 --
 
 INSERT INTO `Users` (`UserID`, `Username`, `Password`, `Email`, `FullName`, `DateOfBirth`, `Gender`, `Address`, `PhoneNumber`, `RoleID`, `AccountCreationDate`, `LastLogin`, `AccountStatus`, `ProfilePictureURL`, `ActivationStatus`) VALUES
-(0, 'ikimukti', 'ef797c8118f02dfb649607dd5d3f8c7623048c9c063d532cc95c5ed7a898a64f', '19103020046@unpkediri.ac.id', 'Firmansyah Mukti Wijaya', '2023-10-12', 'Male', 'Nglaban 1111', '081216318022', 2, '2023-11-30 03:56:19', '2023-11-30 10:56:19', NULL, '653e5a409b4fb.jpeg', NULL),
-(137648118, 'admin', 'ef797c8118f02dfb649607dd5d3f8c7623048c9c063d532cc95c5ed7a898a64f', 'admin@ikimukti.com', 'Administrator', NULL, NULL, NULL, NULL, 1, '2023-11-30 04:20:55', '2023-11-30 11:20:55', NULL, 'default.png', NULL),
-(2147483647, 'ricky', 'ef797c8118f02dfb649607dd5d3f8c7623048c9c063d532cc95c5ed7a898a64f', 'ricky@gmail.com', 'Ricky Lascha', NULL, NULL, NULL, NULL, 2, '2023-11-30 04:19:15', '2023-11-30 11:19:15', NULL, 'default.png', NULL);
+(0, 'ikimukti', 'ef797c8118f02dfb649607dd5d3f8c7623048c9c063d532cc95c5ed7a898a64f', '19103020046@unpkediri.ac.id', 'Firmansyah Mukti Wijaya', '2023-10-12', 'Male', 'Nglaban 1111', '081216318022', 2, '2023-11-30 11:20:58', '2023-11-30 18:20:58', NULL, '653e5a409b4fb.jpeg', NULL),
+(137648118, 'admin', 'ef797c8118f02dfb649607dd5d3f8c7623048c9c063d532cc95c5ed7a898a64f', 'admin@ikimukti.com', 'Administrator', NULL, NULL, NULL, NULL, 1, '2023-11-30 11:22:39', '2023-11-30 18:22:39', NULL, 'default.png', NULL);
 
 --
 -- Indexes for dumped tables
@@ -510,13 +563,13 @@ ALTER TABLE `Colors`
 -- AUTO_INCREMENT for table `LogActivities`
 --
 ALTER TABLE `LogActivities`
-  MODIFY `LogID` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `LogID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=64;
 
 --
 -- AUTO_INCREMENT for table `Products`
 --
 ALTER TABLE `Products`
-  MODIFY `ProductID` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `ProductID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `Sizes`
@@ -528,7 +581,7 @@ ALTER TABLE `Sizes`
 -- AUTO_INCREMENT for table `Stocks`
 --
 ALTER TABLE `Stocks`
-  MODIFY `StockID` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `StockID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- Constraints for dumped tables
@@ -544,7 +597,7 @@ ALTER TABLE `DailyTransactions`
 -- Constraints for table `LogActivities`
 --
 ALTER TABLE `LogActivities`
-  ADD CONSTRAINT `LogActivity_ibfk_1` FOREIGN KEY (`UserID`) REFERENCES `users` (`UserID`) ON DELETE SET NULL ON UPDATE SET NULL;
+  ADD CONSTRAINT `LogActivity_ibfk_1` FOREIGN KEY (`UserID`) REFERENCES `Users` (`UserID`) ON DELETE SET NULL ON UPDATE SET NULL;
 
 --
 -- Constraints for table `Products`
@@ -557,6 +610,7 @@ ALTER TABLE `Products`
 -- Constraints for table `Stocks`
 --
 ALTER TABLE `Stocks`
+  ADD CONSTRAINT `sizes_ibfk_2` FOREIGN KEY (`SizeID`) REFERENCES `Sizes` (`SizeID`) ON DELETE SET NULL ON UPDATE SET NULL,
   ADD CONSTRAINT `stocks_ibfk_1` FOREIGN KEY (`ProductID`) REFERENCES `products` (`ProductID`) ON DELETE SET NULL ON UPDATE SET NULL,
   ADD CONSTRAINT `stocks_ibfk_3` FOREIGN KEY (`ColorID`) REFERENCES `colors` (`ColorID`) ON DELETE SET NULL ON UPDATE SET NULL;
 
