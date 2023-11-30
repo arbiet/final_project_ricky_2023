@@ -40,7 +40,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Upload product image
         $targetDir = "../static/image/products/";
         $uniqueFilename = uniqid() . '_' . basename($_FILES['product_image']['name']);
-        $targetFile = $uploadDir . $uniqueFilename;
+        $targetFile = $targetDir . $uniqueFilename;
         $uploadOk = 1;
         $imageFileType = strtolower(pathinfo($targetFile, PATHINFO_EXTENSION));
 

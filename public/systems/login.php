@@ -72,7 +72,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 Swal.fire({
                     icon: "success",
                     title: "Success!",
-                    text: "Login weo.",
+                    text: "Login succesfull.",
                     showConfirmButton: false,
                     timer: 1500
                 }).then(function(){

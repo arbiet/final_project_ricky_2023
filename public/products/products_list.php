@@ -59,7 +59,18 @@ $totalPages = ceil($totalProducts / $productsPerPage);
         <!-- Main Content -->
         <main class="w-full sm:w-3/4 bg-white p-4 overflow-y-auto max-h-screen pb-40">
             <!-- Main Header -->
-            <h1 class="text-3xl text-gray-800 font-semibold border-b border-gray-200 mb-4">Product List</h1>
+            <div class="flex justify-between items-center mb-4 border-b">
+                <div class="flex items-center space-x-2">
+                    <h1 class="text-3xl text-gray-800 font-semibold border-gray-200 mb-4">Product List</h1>
+                </div>
+                <div class="flex items-center space-x-2">
+                    <a href="<?php echo $baseUrl; ?>public/products/products_create.php" class="bg-green-400 hover:bg-green-500 text-white font-bold py-2 px-4 rounded inline-flex items-center">
+                        <i class="fas fa-plus mr-2"></i>
+                        <span>Create</span>
+                    </a>
+                </div>
+            </div>
+            <!-- End Main Header -->
             <!-- Content for Product List -->
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                 <?php while ($product = mysqli_fetch_assoc($productResult)) : ?>
