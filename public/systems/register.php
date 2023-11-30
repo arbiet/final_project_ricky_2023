@@ -2,6 +2,7 @@
 // Include the connection file
 require_once('../../database/connection.php');
 include_once('../components/header.php');
+require_once('auth.php'); // Include auth.php for authentication functions
 
 // Initialize variables
 $username = $password = $confirm_password = $email = $fullname = '';
@@ -15,121 +16,68 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = $_POST['email'];
     $fullname = $_POST['fullname'];
 
-    // Validate inputs
-    if (empty($username) || empty($password) || empty($email) || empty($fullname)) {
-        array_push($errors, 'Username, email, password, and fullname are required');
-    }
-
-    if (strlen($username) > 20) {
-        array_push($errors, 'Username cannot be longer than 20 characters');
-    }
-
-    if (strlen($password) < 8) {
-        array_push($errors, 'Password must be at least 8 characters long');
-    }
-
-    if ($password !== $confirm_password) {
-        array_push($errors, 'Password confirmation does not match');
-    }
-
-    // Hash the password for storage
-    $hashed_password = hash('sha256', $password);
-
-    // Set default role to 'pengelolastok' => 2
-    $default_role = '2';
-
-    // Set default profilepictureult to 'default.png'
-    $default_profilepictureult = 'default.png'; // default
-
-    // Check if the username already exists
-    $query = "SELECT * FROM Users WHERE username=? LIMIT 1";
-    $stmt = $conn->prepare($query);
-    $stmt->bind_param('s', $username);
-    $stmt->execute();
-    $result = $stmt->get_result();
-    $user = $result->fetch_assoc();
-
-    if ($user) { // if user exists
-        array_push($errors, 'Username already exists');
-    }
-
-    // Check if the email already exists
-    $query = "SELECT * FROM Users WHERE email=? LIMIT 1";
-    $stmt = $conn->prepare($query);
-    $stmt->bind_param('s', $email);
-    $stmt->execute();
-    $result = $stmt->get_result();
-    $user = $result->fetch_assoc();
-
-
-    if ($user) { // if email exists
-        array_push($errors, 'Email already exists');
-    }
-
-    // Fungsi untuk menghasilkan User ID acak
-
-
-    // Inisialisasi User ID dan cek ke database
-    $user_id = generateRandomUserID();
-
-    // Periksa apakah User ID sudah ada dalam database
-    $query = "SELECT * FROM Users WHERE UserID = ? LIMIT 1";
-    $stmt = $conn->prepare($query);
-    $stmt->bind_param('s', $user_id);
-    $stmt->execute();
-    $result = $stmt->get_result();
-    $user = $result->fetch_assoc();
-
-    // Jika User ID sudah ada, hasilkan yang baru
-    while ($user) {
-        $user_id = generateRandomUserID();
-        $stmt->bind_param('s', $user_id);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        $user = $result->fetch_assoc();
-    }
-
+    // Validate inputs using auth.php functions
+    validateRegistrationInputs($username, $password, $confirm_password, $email, $fullname, $errors, $conn);
 
     // If there are no errors, proceed with registration
     if (count($errors) === 0) {
-        // Prepare and execute a query to insert a new user record
-        $query = "INSERT INTO Users (UserID, username, email, password, RoleID, fullname, ProfilePictureURL) VALUES (?, ?, ?, ?, ?, ?, ?)";
-        $stmt = $conn->prepare($query);
-        $stmt->bind_param('sssssss', $user_id, $username, $email, $hashed_password, $default_role, $fullname, $default_profilepictureult);
+        // Generate User ID using auth.php function
+        $user_id = generateRandomUserID($conn);
 
-        if ($stmt->execute()) {
-            // Registration successful, trigger SweetAlert
-            echo '<script>
-                    Swal.fire({
-                        icon: "success",
-                        title: "Registration Successful!",
-                        text: "You can now login.",
-                        showConfirmButton: false,
-                        timer: 2000
-                    }).then(function(){
-                        window.location.href = "../systems/login.php";
-                    });
-                  </script>';
-        } else {
-            $errors['registration_failed'] = 'Failed to register user.';
-            // Registration failed, trigger SweetAlert for error
-            echo '<script>
-                Swal.fire({
-                    icon: "error",
-                    title: "Registration Failed!",
-                    text: "Failed to register user. Please try again later.",
-                    showConfirmButton: false,
-                    timer: 2000
-                });
-              </script>';
+        // Check if User ID already exists in the database
+        while (isUserIDExists($conn, $user_id)) {
+            $user_id = generateRandomUserID($conn);
         }
 
-        // Close the statement
-        $stmt->close();
+        // Hash the password for storage
+        $hashed_password = hash('sha256', $password);
+
+        // Set default role to 'pengelolastok' => 2
+        $default_role = '2';
+
+        // Set default profile picture URL to 'default.png'
+        $default_profile_picture = 'default.png';
+
+        // If there are no errors, proceed with registration
+        if (count($errors) === 0) {
+            // Prepare and execute a query to insert a new user record
+            $query = "INSERT INTO Users (UserID, username, email, password, RoleID, fullname, ProfilePictureURL) VALUES (?, ?, ?, ?, ?, ?, ?)";
+            $stmt = $conn->prepare($query);
+            $stmt->bind_param('sssssss', $user_id, $username, $email, $hashed_password, $default_role, $fullname, $default_profile_picture);
+
+            if ($stmt->execute()) {
+                // Registration successful, trigger SweetAlert
+                echo '<script>
+                        Swal.fire({
+                            icon: "success",
+                            title: "Registration Successful!",
+                            text: "You can now login.",
+                            showConfirmButton: false,
+                            timer: 2000
+                        }).then(function(){
+                            window.location.href = "../systems/login.php";
+                        });
+                      </script>';
+            } else {
+                $errors['registration_failed'] = 'Failed to register user.';
+                // Registration failed, trigger SweetAlert for error
+                echo '<script>
+                    Swal.fire({
+                        icon: "error",
+                        title: "Registration Failed!",
+                        text: "Failed to register user. Please try again later.",
+                        showConfirmButton: false,
+                        timer: 2000
+                    });
+                  </script>';
+            }
+
+            // Close the statement
+            $stmt->close();
+        }
     }
 }
 ?>
-
 
 
 <div class="h-screen flex flex-col">

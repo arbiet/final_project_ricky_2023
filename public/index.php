@@ -1,15 +1,11 @@
 <?php
 // get file connection.php
 require_once('../database/connection.php');
+
+// Include auth.php
+require_once('systems/auth.php');
 // Initialize the session
-session_start();
-
-if (isset($_SESSION['UserID'])) {
-    // Redirect to dashboard
-    header('Location: systems/dashboard.php');
-    exit();
-}
-
+// session_start();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -88,5 +84,23 @@ if (isset($_SESSION['UserID'])) {
     </div>
     <!-- End Main Content -->
 </body>
-
+<script>
+            function confirmLogout() {
+                Swal.fire({
+                    title: 'Apakah Anda yakin ingin logout?',
+                    text: 'Anda akan keluar dari sesi ini.',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Ya, Logout!',
+                    cancelButtonText: 'Batal'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // Redirect to the logout page or trigger your logout logic here
+                        window.location.href = 'systems/logout.php';
+                    }
+                });
+            }
+        </script>
 </html>

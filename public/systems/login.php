@@ -65,14 +65,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $updateLastLoginStmt->close();
 
             // Determine the dashboard based on the user's role
-            $dashboardPage = ($_SESSION['RoleID'] === '1') ? 'dashboard.php' : 'dashboard_manager.php';
+            $dashboardPage = ($_SESSION['RoleID'] == '1') ? 'dashboard.php' : 'dashboard_manager.php';
 
             // Redirect the user to the appropriate dashboard
             echo '<script>
                 Swal.fire({
                     icon: "success",
                     title: "Success!",
-                    text: "Login successful.",
+                    text: "Login weo.",
                     showConfirmButton: false,
                     timer: 1500
                 }).then(function(){

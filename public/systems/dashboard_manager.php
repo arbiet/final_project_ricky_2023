@@ -2,14 +2,11 @@
 // Include the connection file
 require_once('../../database/connection.php');
 
-// Include the session handling logic
-session_start();
+// Include the session handling and authentication logic
+require_once('auth.php');
 
 // Redirect to login if the user is not logged in or is not a manager
-if (!isset($_SESSION['UserID']) || !isset($_SESSION['RoleID']) || $_SESSION['RoleID'] != 2) {
-    header("Location: login.php");
-    exit();
-}
+checkUserRole(2);
 
 // Include the header
 include('../components/header.php');
