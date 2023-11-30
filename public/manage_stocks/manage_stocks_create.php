@@ -72,6 +72,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $updateStockStmt->bind_param("iiii", $quantity, $productID, $sizeID, $colorID);
 
                 if ($updateStockStmt->execute()) {
+                    
+                    // Insert data into DailyTransactions for Stock In
+                    $insertTransactionQuery = "INSERT INTO DailyTransactions (StockID, Quantity, TransactionType, TransactionDate) VALUES (?, ?, 'In', NOW())";
+                    $insertTransactionStmt = $conn->prepare($insertTransactionQuery);
+                    $insertTransactionStmt->bind_param("ii", $stockID, $quantity);
+                    $insertTransactionStmt->execute();
+                    
                     // Stock update successful
                     $successMessage .= "Stock updated successfully for ProductID: $productID, SizeID: $sizeID, ColorID: $colorID<br>";
                 } else {
@@ -86,6 +93,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                 if ($insertStockStmt->execute()) {
                     // Stock insertion successful
+
+                    // Get the ID of the newly inserted stock
+                    $stockID = $insertStockStmt->insert_id;
+
+                    // Insert data into DailyTransactions for Stock In
+                    $insertTransactionQuery = "INSERT INTO DailyTransactions (StockID, Quantity, TransactionType, TransactionDate) VALUES (?, ?, 'In', NOW())";
+                    $insertTransactionStmt = $conn->prepare($insertTransactionQuery);
+                    $insertTransactionStmt->bind_param("ii", $stockID, $quantity);
+                    $insertTransactionStmt->execute();
+
                     $successMessage .= "Stock created successfully for ProductID: $productID, SizeID: $sizeID, ColorID: $colorID<br>";
                 } else {
                     // Stock insertion failed

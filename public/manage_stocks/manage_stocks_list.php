@@ -1,8 +1,10 @@
 <?php
 // Initialize the session
 session_start();
+
 // Include the connection file
 require_once('../../database/connection.php');
+
 
 // Initialize variables
 $productName = '';
@@ -223,8 +225,26 @@ document.querySelectorAll('.stock-in-btn').forEach(function(button) {
             showCancelButton: true,
             confirmButtonText: 'Stock In',
             preConfirm: function() {
-                // Proses formulir di sini (AJAX request atau sesuai kebutuhan)
-                // return Promise.resolve(); // Uncomment baris ini jika tidak ada proses AJAX
+                const size = document.getElementById('stockInSize').value;
+                const color = document.getElementById('stockInColor').value;
+                const quantity = document.getElementById('stockInQuantity').value;
+
+                // Use fetch API to submit form data to stock_in.php
+                return fetch('stock_in.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: new URLSearchParams({
+                        stockInSize: size,
+                        stockInColor: color,
+                        stockInQuantity: quantity,
+                        productId: productId,
+                    }),
+                }).then(function(response) {
+                    // Reload the page after successful form submission
+                    location.reload();
+                });
             }
         });
     });
@@ -245,18 +265,14 @@ document.querySelectorAll('.stock-out-btn').forEach(function(button) {
                         <label for="stockOutSize" class="block text-gray-800 font-semibold">Select Size:</label>
                         <select id="stockOutSize" name="stockOutSize" required class="w-full rounded-md border-gray-300 px-2 py-2 border text-gray-600">
                             <option value="">Select Size</option>
-                            <option value="Small">Small</option>
-                            <option value="Large">Large</option>
-                            <!-- Tambahkan opsi size lain sesuai kebutuhan -->
+                            <?php echo $sizeOptions; ?>
                         </select>
                     </div>
                     <div class="mb-4">
                         <label for="stockOutColor" class="block text-gray-800 font-semibold">Select Color:</label>
                         <select id="stockOutColor" name="stockOutColor" required class="w-full rounded-md border-gray-300 px-2 py-2 border text-gray-600">
                             <option value="">Select Color</option>
-                            <option value="Antique Moss">Antique Moss</option>
-                            <option value="Ashley Blue">Ashley Blue</option>
-                            <!-- Tambahkan opsi color lain sesuai kebutuhan -->
+                            <?php echo $colorOptions; ?>
                         </select>
                     </div>
                     <div class="mb-4">
@@ -269,8 +285,26 @@ document.querySelectorAll('.stock-out-btn').forEach(function(button) {
             showCancelButton: true,
             confirmButtonText: 'Stock Out',
             preConfirm: function() {
-                // Proses formulir di sini (AJAX request atau sesuai kebutuhan)
-                // return Promise.resolve(); // Uncomment baris ini jika tidak ada proses AJAX
+                const size = document.getElementById('stockOutSize').value;
+                const color = document.getElementById('stockOutColor').value;
+                const quantity = document.getElementById('stockOutQuantity').value;
+
+                // Use fetch API to submit form data to stock_out.php
+                return fetch('stock_out.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: new URLSearchParams({
+                        stockOutSize: size,
+                        stockOutColor: color,
+                        stockOutQuantity: quantity,
+                        productId: productId,
+                    }),
+                }).then(function(response) {
+                    // Reload the page after successful form submission
+                    location.reload();
+                });
             }
         });
     });
