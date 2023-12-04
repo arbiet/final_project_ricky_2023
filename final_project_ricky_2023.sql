@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 30, 2023 at 05:59 PM
+-- Generation Time: Dec 04, 2023 at 02:18 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -354,11 +354,57 @@ INSERT INTO `Colors` (`ColorID`, `ColorName`) VALUES
 
 CREATE TABLE `DailyTransactions` (
   `TransactionID` int(11) NOT NULL,
-  `ProductID` int(11) DEFAULT NULL,
+  `StockID` int(11) DEFAULT NULL,
   `Quantity` int(11) DEFAULT NULL,
   `TransactionType` enum('In','Out') DEFAULT NULL,
   `TransactionDate` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `DailyTransactions`
+--
+
+INSERT INTO `DailyTransactions` (`TransactionID`, `StockID`, `Quantity`, `TransactionType`, `TransactionDate`) VALUES
+(1, 7, 10, 'In', '2023-12-01'),
+(2, 8, 5, 'In', '2023-12-01'),
+(3, 9, 11, 'In', '2023-12-01'),
+(4, 10, 4, 'In', '2023-12-01'),
+(5, 11, 16, 'In', '2023-12-01'),
+(6, 12, 3, 'In', '2023-12-01'),
+(7, 13, 12, 'In', '2023-12-01'),
+(8, 14, 6, 'In', '2023-12-01'),
+(9, 15, 13, 'In', '2023-12-01'),
+(10, 16, 7, 'In', '2023-12-01'),
+(11, 17, 14, 'In', '2023-12-01'),
+(12, 18, 6, 'In', '2023-12-01'),
+(13, 19, 19, 'In', '2023-12-01'),
+(14, 20, 14, 'In', '2023-12-01'),
+(15, 21, 6, 'In', '2023-12-01'),
+(16, 22, 16, 'In', '2023-12-01'),
+(17, 23, 3, 'In', '2023-12-01'),
+(18, 24, 18, 'In', '2023-12-01'),
+(19, 25, 17, 'In', '2023-12-01'),
+(20, 26, 17, 'In', '2023-12-01'),
+(21, 27, 19, 'In', '2023-12-01'),
+(22, 28, 17, 'In', '2023-12-01'),
+(23, 29, 16, 'In', '2023-12-01'),
+(24, 30, 20, 'In', '2023-12-01'),
+(25, 31, 18, 'In', '2023-12-01'),
+(26, 32, 19, 'In', '2023-12-01'),
+(27, 33, 20, 'In', '2023-12-01'),
+(28, 34, 15, 'In', '2023-12-01'),
+(29, 35, 19, 'In', '2023-12-01'),
+(30, 36, 19, 'In', '2023-12-01'),
+(31, 37, 20, 'In', '2023-12-01'),
+(32, 38, 18, 'In', '2023-12-01'),
+(33, 39, 20, 'In', '2023-12-01'),
+(34, 40, 19, 'In', '2023-12-01'),
+(35, 41, 18, 'In', '2023-12-01'),
+(36, 42, 17, 'In', '2023-12-01'),
+(37, 43, 16, 'In', '2023-12-01'),
+(38, 44, 19, 'In', '2023-12-01'),
+(39, 45, 18, 'In', '2023-12-01'),
+(64, NULL, 1, 'In', '2023-12-01');
 
 -- --------------------------------------------------------
 
@@ -622,7 +668,7 @@ INSERT INTO `Stocks` (`StockID`, `ProductID`, `SizeID`, `ColorID`, `Quantity`) V
 (22, 11, 4, 53, 16),
 (23, 11, 3, 53, 3),
 (24, 12, 4, 55, 18),
-(25, 13, 4, 44, 17),
+(25, 13, 4, 44, 18),
 (26, 14, 4, 57, 17),
 (27, 15, 4, 58, 19),
 (28, 16, 4, 59, 17),
@@ -703,7 +749,7 @@ ALTER TABLE `Colors`
 --
 ALTER TABLE `DailyTransactions`
   ADD PRIMARY KEY (`TransactionID`),
-  ADD KEY `dailytransaction_ibfk_1` (`ProductID`);
+  ADD KEY `dailytransaction_ibfk_1` (`StockID`);
 
 --
 -- Indexes for table `LogActivities`
@@ -774,6 +820,12 @@ ALTER TABLE `Colors`
   MODIFY `ColorID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=68;
 
 --
+-- AUTO_INCREMENT for table `DailyTransactions`
+--
+ALTER TABLE `DailyTransactions`
+  MODIFY `TransactionID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=65;
+
+--
 -- AUTO_INCREMENT for table `LogActivities`
 --
 ALTER TABLE `LogActivities`
@@ -805,7 +857,7 @@ ALTER TABLE `Stocks`
 -- Constraints for table `DailyTransactions`
 --
 ALTER TABLE `DailyTransactions`
-  ADD CONSTRAINT `dailytransactions_ibfk_1` FOREIGN KEY (`ProductID`) REFERENCES `products` (`ProductID`) ON DELETE SET NULL ON UPDATE SET NULL;
+  ADD CONSTRAINT `dailytransactions_ibfk_1` FOREIGN KEY (`StockID`) REFERENCES `Stocks` (`StockID`) ON DELETE SET NULL ON UPDATE SET NULL;
 
 --
 -- Constraints for table `LogActivities`
