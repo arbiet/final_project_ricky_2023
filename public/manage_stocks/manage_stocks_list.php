@@ -130,12 +130,12 @@ while ($colorRow = $colorResult->fetch_assoc()) {
                                                 <div class="mt-4">
                                                     <h3 class="text-lg font-semibold text-gray-800">Stock Details:</h3>
                                                     <?php
-                                                    // Fetch stock details for the current product
+                                                    // Fetch stock details for the current product excluding rows with 0 quantity
                                                     $stockQuery = "SELECT sz.SizeName, clr.ColorName, st.Quantity
                                                         FROM Stocks st
                                                         LEFT JOIN Sizes sz ON st.SizeID = sz.SizeID
                                                         LEFT JOIN Colors clr ON st.ColorID = clr.ColorID
-                                                        WHERE st.ProductID = {$row['ProductID']}";
+                                                        WHERE st.ProductID = {$row['ProductID']} AND st.Quantity > 0";
                                                     $stockResult = $conn->query($stockQuery);
 
                                                     // Loop through stock details and display
@@ -144,6 +144,7 @@ while ($colorRow = $colorResult->fetch_assoc()) {
                                                     }
                                                     ?>
                                                 </div>
+
                                             </div>
                                         </div>
                                     </div>
@@ -153,6 +154,10 @@ while ($colorRow = $colorResult->fetch_assoc()) {
                                             <p class="text-xl font-semibold <?php echo $textColor; ?>">Qty</p>
                                         </div>
                                         <div>
+                                            <button class="bg-amber-500 hover:bg-amber-700 text-white font-bold py-2 px-4 rounded inline-flex items-center text-sm stock-transaction-btn" data-product-id="<?php echo $row['ProductID']; ?>">
+                                                <i class="fa-solid fa-money-bill-transfer mr-2"></i>
+                                                <span>Transaction</span>
+                                            </button>
                                             <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded inline-flex items-center text-sm stock-in-btn" data-product-id="<?php echo $row['ProductID']; ?>">
                                                 <i class='fas fa-arrow-up mr-2'></i>
                                                 <span>Stock In</span>
@@ -190,16 +195,16 @@ while ($colorRow = $colorResult->fetch_assoc()) {
 <!-- End Main Content -->
 </body>
 <script>
-// Event listener untuk tombol Stock In
-document.querySelectorAll('.stock-in-btn').forEach(function(button) {
-    button.addEventListener('click', function() {
-        const productId = this.getAttribute('data-product-id');
+    // Event listener untuk tombol Stock In
+    document.querySelectorAll('.stock-in-btn').forEach(function(button) {
+        button.addEventListener('click', function() {
+            const productId = this.getAttribute('data-product-id');
 
-        // Tampilkan Sweet Alert dengan formulir untuk Stock In
-        Swal.fire({
-            icon: 'info',
-            title: 'Stock In',
-            html: `
+            // Tampilkan Sweet Alert dengan formulir untuk Stock In
+            Swal.fire({
+                icon: 'info',
+                title: 'Stock In',
+                html: `
                 <form id="stockInForm" class="mt-4">
                     <div class="mb-4">
                         <label for="stockInSize" class="block text-gray-800 font-semibold">Select Size:</label>
@@ -222,93 +227,114 @@ document.querySelectorAll('.stock-in-btn').forEach(function(button) {
                     <input type="hidden" name="productId" value="${productId}">
                 </form>
             `,
-            showCancelButton: true,
-            confirmButtonText: 'Stock In',
-            preConfirm: function() {
-                const size = document.getElementById('stockInSize').value;
-                const color = document.getElementById('stockInColor').value;
-                const quantity = document.getElementById('stockInQuantity').value;
+                showCancelButton: true,
+                confirmButtonText: 'Stock In',
+                preConfirm: function() {
+                    const size = document.getElementById('stockInSize').value;
+                    const color = document.getElementById('stockInColor').value;
+                    const quantity = document.getElementById('stockInQuantity').value;
 
-                // Use fetch API to submit form data to stock_in.php
-                return fetch('stock_in.php', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded',
-                    },
-                    body: new URLSearchParams({
-                        stockInSize: size,
-                        stockInColor: color,
-                        stockInQuantity: quantity,
-                        productId: productId,
-                    }),
-                }).then(function(response) {
-                    // Reload the page after successful form submission
-                    location.reload();
-                });
-            }
+                    // Use fetch API to submit form data to stock_in.php
+                    return fetch('stock_in.php', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded',
+                        },
+                        body: new URLSearchParams({
+                            stockInSize: size,
+                            stockInColor: color,
+                            stockInQuantity: quantity,
+                            productId: productId,
+                        }),
+                    }).then(function(response) {
+                        // Reload the page after successful form submission
+                        location.reload();
+                    });
+                }
+            });
         });
     });
-});
 
-// Event listener untuk tombol Stock Out
-document.querySelectorAll('.stock-out-btn').forEach(function(button) {
-    button.addEventListener('click', function() {
-        const productId = this.getAttribute('data-product-id');
+    // Event listener for the Stock Out button
+    document.querySelectorAll('.stock-out-btn').forEach(function(button) {
+        button.addEventListener('click', function() {
+            const productId = this.getAttribute('data-product-id');
 
-        // Tampilkan Sweet Alert dengan formulir untuk Stock Out
-        Swal.fire({
-            icon: 'info',
-            title: 'Stock Out',
-            html: `
-                <form id="stockOutForm" class="mt-4">
-                    <div class="mb-4">
-                        <label for="stockOutSize" class="block text-gray-800 font-semibold">Select Size:</label>
-                        <select id="stockOutSize" name="stockOutSize" required class="w-full rounded-md border-gray-300 px-2 py-2 border text-gray-600">
-                            <option value="">Select Size</option>
-                            <?php echo $sizeOptions; ?>
-                        </select>
-                    </div>
-                    <div class="mb-4">
-                        <label for="stockOutColor" class="block text-gray-800 font-semibold">Select Color:</label>
-                        <select id="stockOutColor" name="stockOutColor" required class="w-full rounded-md border-gray-300 px-2 py-2 border text-gray-600">
-                            <option value="">Select Color</option>
-                            <?php echo $colorOptions; ?>
-                        </select>
-                    </div>
-                    <div class="mb-4">
-                        <label for="stockOutQuantity" class="block text-gray-800 font-semibold">Enter quantity for Stock Out:</label>
-                        <input type="number" id="stockOutQuantity" name="stockOutQuantity" min="1" required class="w-full rounded-md border-gray-300 px-2 py-2 border text-gray-600">
-                    </div>
-                    <input type="hidden" name="productId" value="${productId}">
-                </form>
-            `,
-            showCancelButton: true,
-            confirmButtonText: 'Stock Out',
-            preConfirm: function() {
-                const size = document.getElementById('stockOutSize').value;
-                const color = document.getElementById('stockOutColor').value;
-                const quantity = document.getElementById('stockOutQuantity').value;
+            // Fetch stock details for the current product
+            fetch(`stock_details.php?productId=${productId}`)
+                .then(response => response.json())
+                .then(stockDetails => {
+                    // Extract size-color combinations from stock details
+                    const sizeColors = stockDetails.map(detail => `${detail.SizeName}-${detail.ColorName}`);
 
-                // Use fetch API to submit form data to stock_out.php
-                return fetch('stock_out.php', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded',
-                    },
-                    body: new URLSearchParams({
-                        stockOutSize: size,
-                        stockOutColor: color,
-                        stockOutQuantity: quantity,
-                        productId: productId,
-                    }),
-                }).then(function(response) {
-                    // Reload the page after successful form submission
-                    location.reload();
+                    // Display Sweet Alert with Stock Out form
+                    Swal.fire({
+                        icon: 'info',
+                        title: 'Stock Out',
+                        html: `
+                        <form id="stockOutForm" class="mt-4">
+                            <div class="mb-4">
+                                <label for="stockOutSizeColor" class="block text-gray-800 font-semibold">Select Size and Color:</label>
+                                <select id="stockOutSizeColor" name="stockOutSizeColor" required class="w-full rounded-md border-gray-300 px-2 py-2 border text-gray-600">
+                                    <option value="">Select Size and Color</option>
+                                    ${sizeColors.map(sizeColor => `<option value="${sizeColor}">${sizeColor}</option>`).join('')}
+                                </select>
+                            </div>
+                            <div class="mb-4">
+                                <label for="stockOutQuantity" class="block text-gray-800 font-semibold">Enter quantity for Stock Out:</label>
+                                <input type="number" id="stockOutQuantity" name="stockOutQuantity" min="1" required class="w-full rounded-md border-gray-300 px-2 py-2 border text-gray-600">
+                            </div>
+                            <input type="hidden" name="productId" value="${productId}">
+                        </form>
+                    `,
+                        showCancelButton: true,
+                        confirmButtonText: 'Stock Out',
+                        preConfirm: function() {
+                            const sizeColor = document.getElementById('stockOutSizeColor').value;
+                            const quantity = document.getElementById('stockOutQuantity').value;
+
+                            // Use fetch API to submit form data to stock_out.php
+                            return fetch('stock_out.php', {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/x-www-form-urlencoded',
+                                },
+                                body: new URLSearchParams({
+                                    stockOutSizeColor: sizeColor,
+                                    stockOutQuantity: quantity,
+                                    productId: productId,
+                                }),
+                            }).then(function(response) {
+                                return response.json();
+                            }).then(function(data) {
+                                // Check if the request was successful
+                                if (data.success) {
+                                    // Show a success message with a delay before reloading
+                                    Swal.fire({
+                                        icon: 'success',
+                                        title: 'Stock Updated',
+                                        text: data.message,
+                                        showConfirmButton: false, // Hide the confirm button
+                                    });
+
+                                    // Delay for 1500 milliseconds (1.5 seconds) before reloading the page
+                                    setTimeout(function() {
+                                        location.reload();
+                                    }, 1500);
+                                } else {
+                                    // Show an alert with the error message
+                                    Swal.fire({
+                                        icon: 'error',
+                                        title: 'Stock Out Error',
+                                        text: data.message,
+                                    });
+                                }
+                            });
+                        }
+                    });
                 });
-            }
         });
     });
-});
 </script>
 
 
