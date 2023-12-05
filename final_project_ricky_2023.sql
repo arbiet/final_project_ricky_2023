@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 04, 2023 at 02:18 PM
+-- Generation Time: Dec 05, 2023 at 01:14 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -365,46 +365,50 @@ CREATE TABLE `DailyTransactions` (
 --
 
 INSERT INTO `DailyTransactions` (`TransactionID`, `StockID`, `Quantity`, `TransactionType`, `TransactionDate`) VALUES
-(1, 7, 10, 'In', '2023-12-01'),
-(2, 8, 5, 'In', '2023-12-01'),
-(3, 9, 11, 'In', '2023-12-01'),
-(4, 10, 4, 'In', '2023-12-01'),
-(5, 11, 16, 'In', '2023-12-01'),
-(6, 12, 3, 'In', '2023-12-01'),
-(7, 13, 12, 'In', '2023-12-01'),
-(8, 14, 6, 'In', '2023-12-01'),
-(9, 15, 13, 'In', '2023-12-01'),
-(10, 16, 7, 'In', '2023-12-01'),
-(11, 17, 14, 'In', '2023-12-01'),
-(12, 18, 6, 'In', '2023-12-01'),
-(13, 19, 19, 'In', '2023-12-01'),
-(14, 20, 14, 'In', '2023-12-01'),
-(15, 21, 6, 'In', '2023-12-01'),
-(16, 22, 16, 'In', '2023-12-01'),
-(17, 23, 3, 'In', '2023-12-01'),
-(18, 24, 18, 'In', '2023-12-01'),
-(19, 25, 17, 'In', '2023-12-01'),
-(20, 26, 17, 'In', '2023-12-01'),
-(21, 27, 19, 'In', '2023-12-01'),
-(22, 28, 17, 'In', '2023-12-01'),
-(23, 29, 16, 'In', '2023-12-01'),
-(24, 30, 20, 'In', '2023-12-01'),
-(25, 31, 18, 'In', '2023-12-01'),
-(26, 32, 19, 'In', '2023-12-01'),
-(27, 33, 20, 'In', '2023-12-01'),
-(28, 34, 15, 'In', '2023-12-01'),
-(29, 35, 19, 'In', '2023-12-01'),
-(30, 36, 19, 'In', '2023-12-01'),
-(31, 37, 20, 'In', '2023-12-01'),
-(32, 38, 18, 'In', '2023-12-01'),
-(33, 39, 20, 'In', '2023-12-01'),
-(34, 40, 19, 'In', '2023-12-01'),
-(35, 41, 18, 'In', '2023-12-01'),
-(36, 42, 17, 'In', '2023-12-01'),
-(37, 43, 16, 'In', '2023-12-01'),
-(38, 44, 19, 'In', '2023-12-01'),
-(39, 45, 18, 'In', '2023-12-01'),
-(64, NULL, 1, 'In', '2023-12-01');
+(1, 7, 10, 'In', '2023-06-01'),
+(2, 8, 5, 'In', '2023-06-01'),
+(3, 9, 11, 'In', '2023-06-01'),
+(4, 10, 4, 'In', '2023-06-01'),
+(5, 11, 16, 'In', '2023-06-01'),
+(6, 12, 3, 'In', '2023-06-01'),
+(7, 13, 12, 'In', '2023-06-01'),
+(8, 14, 6, 'In', '2023-06-01'),
+(9, 15, 13, 'In', '2023-06-01'),
+(10, 16, 7, 'In', '2023-06-01'),
+(11, 17, 14, 'In', '2023-06-01'),
+(12, 18, 6, 'In', '2023-06-01'),
+(13, 19, 19, 'In', '2023-06-01'),
+(14, 20, 14, 'In', '2023-06-01'),
+(15, 21, 6, 'In', '2023-06-01'),
+(16, 22, 16, 'In', '2023-06-01'),
+(17, 23, 3, 'In', '2023-06-01'),
+(18, 24, 18, 'In', '2023-06-01'),
+(19, 25, 17, 'In', '2023-06-01'),
+(20, 26, 17, 'In', '2023-06-01'),
+(21, 27, 19, 'In', '2023-06-01'),
+(22, 28, 17, 'In', '2023-06-01'),
+(23, 29, 16, 'In', '2023-06-01'),
+(24, 30, 20, 'In', '2023-06-01'),
+(25, 31, 18, 'In', '2023-06-01'),
+(26, 32, 19, 'In', '2023-06-01'),
+(27, 33, 20, 'In', '2023-06-01'),
+(28, 34, 15, 'In', '2023-06-01'),
+(29, 35, 19, 'In', '2023-06-01'),
+(30, 36, 19, 'In', '2023-06-01'),
+(31, 37, 20, 'In', '2023-06-01'),
+(32, 38, 18, 'In', '2023-06-01'),
+(33, 39, 20, 'In', '2023-06-01'),
+(34, 40, 19, 'In', '2023-06-01'),
+(35, 41, 18, 'In', '2023-06-01'),
+(36, 42, 17, 'In', '2023-06-01'),
+(37, 43, 16, 'In', '2023-06-01'),
+(38, 44, 19, 'In', '2023-06-01'),
+(39, 45, 18, 'In', '2023-06-01'),
+(64, NULL, 1, 'In', '2023-06-01'),
+(65, 46, 1, 'In', '2023-06-01'),
+(66, 47, 1, 'In', '2023-06-01'),
+(67, 48, 3, 'In', '2023-06-01'),
+(68, 7, 1, 'Out', '2023-06-01');
 
 -- --------------------------------------------------------
 
@@ -531,7 +535,8 @@ INSERT INTO `LogActivities` (`LogID`, `UserID`, `ActivityDescription`, `Activity
 (122, 137648118, 'Color with Name: Light Green has been created.', '2023-11-30 16:19:54'),
 (123, 137648118, 'Color with Name: Dark Blue Denim has been created.', '2023-11-30 16:32:15'),
 (124, 137648118, 'Color with Name: Black and White has been created.', '2023-11-30 16:33:39'),
-(125, 137648118, 'Color with Name: Red has been created.', '2023-11-30 16:38:52');
+(125, 137648118, 'Color with Name: Red has been created.', '2023-11-30 16:38:52'),
+(126, 137648118, 'User logged in', '2023-12-05 11:07:14');
 
 -- --------------------------------------------------------
 
@@ -650,8 +655,8 @@ CREATE TABLE `Stocks` (
 --
 
 INSERT INTO `Stocks` (`StockID`, `ProductID`, `SizeID`, `ColorID`, `Quantity`) VALUES
-(7, 3, 4, 41, 10),
-(8, 3, 3, 41, 5),
+(7, 3, 4, 41, 9),
+(8, 3, 3, 41, 4),
 (9, 4, 4, 42, 11),
 (10, 4, 3, 42, 4),
 (11, 5, 4, 43, 16),
@@ -688,7 +693,10 @@ INSERT INTO `Stocks` (`StockID`, `ProductID`, `SizeID`, `ColorID`, `Quantity`) V
 (42, 30, 4, 62, 17),
 (43, 31, 4, 55, 16),
 (44, 32, 4, 56, 19),
-(45, 33, 4, 55, 18);
+(45, 33, 4, 55, 18),
+(46, 3, 5, 14, 0),
+(47, 8, 6, 18, 0),
+(48, 3, 1, 14, 0);
 
 -- --------------------------------------------------------
 
@@ -720,7 +728,7 @@ CREATE TABLE `Users` (
 
 INSERT INTO `Users` (`UserID`, `Username`, `Password`, `Email`, `FullName`, `DateOfBirth`, `Gender`, `Address`, `PhoneNumber`, `RoleID`, `AccountCreationDate`, `LastLogin`, `AccountStatus`, `ProfilePictureURL`, `ActivationStatus`) VALUES
 (0, 'ikimukti', 'ef797c8118f02dfb649607dd5d3f8c7623048c9c063d532cc95c5ed7a898a64f', '19103020046@unpkediri.ac.id', 'Firmansyah Mukti Wijaya', '2023-10-12', 'Male', 'Nglaban 1111', '081216318022', 2, '2023-11-30 11:20:58', '2023-11-30 18:20:58', NULL, '653e5a409b4fb.jpeg', NULL),
-(137648118, 'admin', 'ef797c8118f02dfb649607dd5d3f8c7623048c9c063d532cc95c5ed7a898a64f', 'admin@ikimukti.com', 'Administrator', NULL, NULL, NULL, NULL, 1, '2023-11-30 12:29:36', '2023-11-30 19:29:36', NULL, 'default.png', NULL);
+(137648118, 'admin', 'ef797c8118f02dfb649607dd5d3f8c7623048c9c063d532cc95c5ed7a898a64f', 'admin@ikimukti.com', 'Administrator', NULL, NULL, NULL, NULL, 1, '2023-12-05 11:07:14', '2023-12-05 18:07:14', NULL, 'default.png', NULL);
 
 --
 -- Indexes for dumped tables
@@ -823,13 +831,13 @@ ALTER TABLE `Colors`
 -- AUTO_INCREMENT for table `DailyTransactions`
 --
 ALTER TABLE `DailyTransactions`
-  MODIFY `TransactionID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=65;
+  MODIFY `TransactionID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=69;
 
 --
 -- AUTO_INCREMENT for table `LogActivities`
 --
 ALTER TABLE `LogActivities`
-  MODIFY `LogID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=126;
+  MODIFY `LogID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=127;
 
 --
 -- AUTO_INCREMENT for table `Products`
@@ -847,7 +855,7 @@ ALTER TABLE `Sizes`
 -- AUTO_INCREMENT for table `Stocks`
 --
 ALTER TABLE `Stocks`
-  MODIFY `StockID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
+  MODIFY `StockID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
 
 --
 -- Constraints for dumped tables
@@ -857,7 +865,7 @@ ALTER TABLE `Stocks`
 -- Constraints for table `DailyTransactions`
 --
 ALTER TABLE `DailyTransactions`
-  ADD CONSTRAINT `dailytransactions_ibfk_1` FOREIGN KEY (`StockID`) REFERENCES `Stocks` (`StockID`) ON DELETE SET NULL ON UPDATE SET NULL;
+  ADD CONSTRAINT `dailytransactions_ibfk_1` FOREIGN KEY (`StockID`) REFERENCES `stocks` (`StockID`) ON DELETE SET NULL ON UPDATE SET NULL;
 
 --
 -- Constraints for table `LogActivities`

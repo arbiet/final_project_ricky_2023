@@ -154,10 +154,10 @@ while ($colorRow = $colorResult->fetch_assoc()) {
                                             <p class="text-xl font-semibold <?php echo $textColor; ?>">Qty</p>
                                         </div>
                                         <div>
-                                            <button class="bg-amber-500 hover:bg-amber-700 text-white font-bold py-2 px-4 rounded inline-flex items-center text-sm stock-transaction-btn" data-product-id="<?php echo $row['ProductID']; ?>">
+                                            <a href="<?php echo $baseUrl; ?>public/manage_stocks/manage_stocks_transaction.php?productId=<?php echo $row['ProductID']; ?>" class="bg-amber-500 hover-bg-amber-700 text-white font-bold py-2 px-4 rounded inline-flex items-center">
                                                 <i class="fa-solid fa-money-bill-transfer mr-2"></i>
                                                 <span>Transaction</span>
-                                            </button>
+                                            </a>
                                             <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded inline-flex items-center text-sm stock-in-btn" data-product-id="<?php echo $row['ProductID']; ?>">
                                                 <i class='fas fa-arrow-up mr-2'></i>
                                                 <span>Stock In</span>

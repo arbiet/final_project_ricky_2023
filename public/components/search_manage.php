@@ -1,8 +1,7 @@
 <!-- search_component.php -->
 <div class="flex flex-row justify-between items-center w-full mb-2 pb-2">
     <div>
-        <h2 class="text-lg text-gray-800 font-semibold">Welcome back, <?php echo $_SESSION['FullName']; ?>!</h2>
-        <p class="text-gray-600 text-sm">User information.</p>
+
     </div>
     <!-- Search -->
     <form class="flex items-center justify-end space-x-2 w-96">
