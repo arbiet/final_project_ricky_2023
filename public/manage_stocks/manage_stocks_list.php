@@ -221,6 +221,10 @@ while ($colorRow = $colorResult->fetch_assoc()) {
                         </select>
                     </div>
                     <div class="mb-4">
+                        <label for="stockInDate" class="block text-gray-800 font-semibold">Transaction Date:</label>
+                        <input type="date" id="stockInDate" name="stockInDate" class="w-full rounded-md border-gray-300 px-2 py-2 border text-gray-600" required>
+                    </div>
+                    <div class="mb-4">
                         <label for="stockInQuantity" class="block text-gray-800 font-semibold">Enter quantity for Stock In:</label>
                         <input type="number" id="stockInQuantity" name="stockInQuantity" min="1" required class="w-full rounded-md border-gray-300 px-2 py-2 border text-gray-600">
                     </div>
@@ -233,6 +237,7 @@ while ($colorRow = $colorResult->fetch_assoc()) {
                     const size = document.getElementById('stockInSize').value;
                     const color = document.getElementById('stockInColor').value;
                     const quantity = document.getElementById('stockInQuantity').value;
+                    const date = document.getElementById('stockInDate').value;
 
                     // Use fetch API to submit form data to stock_in.php
                     return fetch('stock_in.php', {
@@ -244,6 +249,7 @@ while ($colorRow = $colorResult->fetch_assoc()) {
                             stockInSize: size,
                             stockInColor: color,
                             stockInQuantity: quantity,
+                            stockInDate: date,
                             productId: productId,
                         }),
                     }).then(function(response) {
@@ -281,6 +287,10 @@ while ($colorRow = $colorResult->fetch_assoc()) {
                                 </select>
                             </div>
                             <div class="mb-4">
+                                <label for="stockOutDate" class="block text-gray-800 font-semibold">Transaction Date:</label>
+                                <input type="date" id="stockOutDate" name="stockOutDate" class="w-full rounded-md border-gray-300 px-2 py-2 border text-gray-600" required>
+                            </div>
+                            <div class="mb-4">
                                 <label for="stockOutQuantity" class="block text-gray-800 font-semibold">Enter quantity for Stock Out:</label>
                                 <input type="number" id="stockOutQuantity" name="stockOutQuantity" min="1" required class="w-full rounded-md border-gray-300 px-2 py-2 border text-gray-600">
                             </div>
@@ -292,6 +302,7 @@ while ($colorRow = $colorResult->fetch_assoc()) {
                         preConfirm: function() {
                             const sizeColor = document.getElementById('stockOutSizeColor').value;
                             const quantity = document.getElementById('stockOutQuantity').value;
+                            const date = document.getElementById('stockOutDate').value;
 
                             // Use fetch API to submit form data to stock_out.php
                             return fetch('stock_out.php', {
@@ -303,6 +314,7 @@ while ($colorRow = $colorResult->fetch_assoc()) {
                                     stockOutSizeColor: sizeColor,
                                     stockOutQuantity: quantity,
                                     productId: productId,
+                                    stockOutDate: date,
                                 }),
                             }).then(function(response) {
                                 return response.json();

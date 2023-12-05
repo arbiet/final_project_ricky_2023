@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 05, 2023 at 01:14 PM
+-- Generation Time: Dec 05, 2023 at 03:30 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -404,11 +404,10 @@ INSERT INTO `DailyTransactions` (`TransactionID`, `StockID`, `Quantity`, `Transa
 (37, 43, 16, 'In', '2023-06-01'),
 (38, 44, 19, 'In', '2023-06-01'),
 (39, 45, 18, 'In', '2023-06-01'),
-(64, NULL, 1, 'In', '2023-06-01'),
 (65, 46, 1, 'In', '2023-06-01'),
 (66, 47, 1, 'In', '2023-06-01'),
 (67, 48, 3, 'In', '2023-06-01'),
-(68, 7, 1, 'Out', '2023-06-01');
+(74, 8, 1, 'Out', '2023-08-01');
 
 -- --------------------------------------------------------
 
@@ -655,8 +654,8 @@ CREATE TABLE `Stocks` (
 --
 
 INSERT INTO `Stocks` (`StockID`, `ProductID`, `SizeID`, `ColorID`, `Quantity`) VALUES
-(7, 3, 4, 41, 9),
-(8, 3, 3, 41, 4),
+(7, 3, 4, 41, 10),
+(8, 3, 3, 41, 3),
 (9, 4, 4, 42, 11),
 (10, 4, 3, 42, 4),
 (11, 5, 4, 43, 16),
@@ -831,7 +830,7 @@ ALTER TABLE `Colors`
 -- AUTO_INCREMENT for table `DailyTransactions`
 --
 ALTER TABLE `DailyTransactions`
-  MODIFY `TransactionID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=69;
+  MODIFY `TransactionID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=75;
 
 --
 -- AUTO_INCREMENT for table `LogActivities`

@@ -6,12 +6,13 @@ require_once('../../database/connection.php');
 $response = array();
 
 // Check if the form is submitted
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['stockOutSizeColor'], $_POST['stockOutQuantity'], $_POST['productId'])) {
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['stockOutSizeColor'], $_POST['stockOutQuantity'], $_POST['productId'], $_POST['stockOutDate'])) {
     // Retrieve form data
     $productId = $_POST['productId'];
     $sizeColor = $_POST['stockOutSizeColor'];
     list($size, $color) = explode("-", $sizeColor);
     $quantity = $_POST['stockOutQuantity'];
+    $transactionDate = $_POST['stockOutDate']; // Use the provided TransactionDate
 
     // Check if there is enough stock
     $checkStockQuery = "SELECT * FROM Stocks WHERE ProductID = $productId AND SizeID = (SELECT SizeID FROM Sizes WHERE SizeName = '$size') AND ColorID = (SELECT ColorID FROM Colors WHERE ColorName = '$color') AND Quantity >= $quantity";
@@ -23,7 +24,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['stockOutSizeColor'], 
 
         if ($conn->query($updateStockQuery)) {
             // Insert data into DailyTransactions for Stock Out
-            $insertTransactionQuery = "INSERT INTO DailyTransactions (StockID, Quantity, TransactionType, TransactionDate) VALUES ((SELECT StockID FROM Stocks WHERE ProductID = $productId AND SizeID = (SELECT SizeID FROM Sizes WHERE SizeName = '$size') AND ColorID = (SELECT ColorID FROM Colors WHERE ColorName = '$color')), $quantity, 'Out', NOW())";
+            $insertTransactionQuery = "INSERT INTO DailyTransactions (StockID, Quantity, TransactionType, TransactionDate) VALUES ((SELECT StockID FROM Stocks WHERE ProductID = $productId AND SizeID = (SELECT SizeID FROM Sizes WHERE SizeName = '$size') AND ColorID = (SELECT ColorID FROM Colors WHERE ColorName = '$color')), $quantity, 'Out', '$transactionDate')";
 
             if ($conn->query($insertTransactionQuery)) {
                 // Success
@@ -55,3 +56,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['stockOutSizeColor'], 
 
 // Return the JSON response
 echo json_encode($response);
+?>
