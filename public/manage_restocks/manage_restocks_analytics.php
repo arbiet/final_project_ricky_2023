@@ -180,13 +180,13 @@ require_once('../../database/connection.php');
                     echo "<h2 class='text-2xl font-semibold mb-2'>MonthlyProductStocks Counts</h2>";
 
                     // Function to generate a table from an associative array
-                    function generateTable($data, $title)
+                    function generateTable($data, $title, $titleCategory)
                     {
                         echo "<h3 class='text-xl font-semibold mb-2'>$title</h3>";
                         echo "<table class='border-collapse border border-gray-400 w-full'>";
                         echo "<thead>";
                         echo "<tr>";
-                        echo "<th class='border border-gray-400 px-4 py-2'>Category</th>";
+                        echo "<th class='border border-gray-400 px-4 py-2'>$titleCategory</th>";
                         echo "<th class='border border-gray-400 px-4 py-2'>Restock</th>";
                         echo "<th class='border border-gray-400 px-4 py-2'>NoRestock</th>";
                         echo "</tr>";
@@ -206,19 +206,19 @@ require_once('../../database/connection.php');
                     }
 
                     // Display counts for Restock by BrandID
-                    generateTable($restockCountsByBrandID, 'Restock Counts by BrandID');
+                    generateTable($restockCountsByBrandID, 'Restock Counts by BrandID', 'BrandID');
 
                     // Display counts for Restock by SizeID
-                    generateTable($restockCountsBySizeID, 'Restock Counts by SizeID');
+                    generateTable($restockCountsBySizeID, 'Restock Counts by SizeID', 'SizeID');
 
                     // Display counts for Restock by ColorID
-                    generateTable($restockCountsByColorID, 'Restock Counts by ColorID');
+                    generateTable($restockCountsByColorID, 'Restock Counts by ColorID', 'ColorID');
 
                     // Display counts for Restock by ProductID
-                    generateTable($restockCountsByProductID, 'Restock Counts by ProductID');
+                    generateTable($restockCountsByProductID, 'Restock Counts by ProductID','ProductID');
 
                     // Display counts for Restock by RemainingStockCategory
-                    generateTable($restockCountsByRemainingStockCategory, 'Restock Counts by RemainingStockCategory');
+                    generateTable($restockCountsByRemainingStockCategory, 'Restock Counts by RemainingStockCategory','RemainingStockCategory');
 
                     // Calculate and display probabilities Condition-Based Hypotheses P(X|Ci)
                     echo "<h2 class='text-2xl font-semibold mb-2'>Probabilities Condition-Based Hypotheses P(X|Ci)</h2>";
