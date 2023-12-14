@@ -23,6 +23,12 @@
                 <a href="../manage_stocks/manage_stocks_list.php">Stocks</a>
             </li>
             ';
+            echo '
+            <li class="px-6 py-4 hover-bg-sky-700 cursor-pointer space-x-2 flex items-center">
+                <i class="fa-solid fa-cubes-stacked mr-3"></i>
+                <a href="../manage_restocks/manage_restocks_list.php">Restocks Analysis</a>
+            </li>
+            ';
         }
         ?>
         <?php
@@ -58,17 +64,6 @@
                 <a href="../manage_categories/manage_categories_list.php">Categories</a>
             </li>
             ';
-        }
-        ?>
-        <?php
-        if ($_SESSION['RoleID'] === 1) {
-            // Menu "Users" hanya ditampilkan jika peran pengguna adalah "Admin"
-            echo '
-        <li class="px-6 py-4 hover-bg-sky-700 cursor-pointer space-x-2 flex items-center">
-            <i class="fas fa-cog mr-3"></i>
-            <a href="../systems/settingsList.php">Settings</a>
-        </li>
-        ';
         }
         ?>
 
