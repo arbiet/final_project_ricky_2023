@@ -78,15 +78,15 @@ $totalPages = ceil($totalProducts / $productsPerPage);
                         <img src="../static/image/products/<?php echo $product['ProductImage']; ?>" alt="<?php echo $product['ProductName']; ?>" class="w-full h-40 object-cover mb-4">
                         <h2 class="text-lg font-semibold mb-2"><?php echo $product['ProductName']; ?></h2>
                         <p class="text-gray-600 mb-2"><?php echo $product['Description']; ?></p>
-                        <p class="text-gray-800 font-bold mb-2">$<?php echo $product['Price']; ?></p>
+                        <p class="text-gray-800 font-bold mb-2">Rp. <?php echo $product['Price']; ?></p>
 
                         <!-- Ellipsis menu -->
                         <div class="absolute top-0 right-0 p-2 cursor-pointer" onmouseover="showDropdownMenu('dropdown-<?php echo $product['ProductID']; ?>')" onmouseout="hideDropdownMenu('dropdown-<?php echo $product['ProductID']; ?>')">
                             <i class="fa-solid fa-ellipsis text-lg"></i>
                             <!-- Dropdown menu for edit and delete options -->
                             <div id="dropdown-<?php echo $product['ProductID']; ?>" class="hidden bg-white border rounded shadow-md absolute right-0 mt-2" onmouseover="showDropdownMenu('dropdown-<?php echo $product['ProductID']; ?>')" onmouseout="hideDropdownMenu('dropdown-<?php echo $product['ProductID']; ?>')">
-                                <a href="#" class="block px-4 py-2 text-gray-800 hover:bg-gray-300">Edit</a>
-                                <a href="#" class="block px-4 py-2 text-gray-800 hover:bg-gray-300">Delete</a>
+                                <a href="products_update.php?product_id=<?php echo $product['ProductID']; ?>" class="block px-4 py-2 text-gray-800 hover:bg-gray-300">Edit</a>
+                                <a href="#" class="block px-4 py-2 text-gray-800 hover:bg-gray-300" onclick="confirmDelete(<?php echo $product['ProductID']; ?>)">Delete</a>
                             </div>
                         </div>
                     </div>

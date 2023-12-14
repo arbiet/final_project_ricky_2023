@@ -82,7 +82,7 @@ $errors = array();
                                         <div>
                                             <h2 class="text-lg font-semibold text-gray-800"><?php echo $row['ProductName']; ?></h2>
                                             <p class="text-gray-600"><?php echo $row['Description']; ?></p>
-                                            <p class="text-gray-600">Price: $<?php echo $row['Price']; ?></p>
+                                            <p class="text-gray-600">Price: Rp. <?php echo $row['Price']; ?></p>
                                             <p class="text-gray-600">
                                                 <i class="fas fa-folder"></i>
                                                 <?php echo $row['CategoryName']; ?>
