@@ -337,7 +337,7 @@ $result = $conn->query($query);
                                 <th class="px-4 py-2">Total Stock In</th>
                                 <th class="px-4 py-2">Total Stock Out</th>
                                 <th class="px-4 py-2">Remaining Stock</th>
-                                <th class="px-4 py-2">Restock</th>
+                                <!-- <th class="px-4 py-2">Restock</th> -->
                             </tr>
                         </thead>
                         <tbody>
@@ -352,7 +352,7 @@ $result = $conn->query($query);
                                     <td class="px-4 py-2"><?php echo $productStock['TotalStockIn']; ?></td>
                                     <td class="px-4 py-2"><?php echo $productStock['TotalStockOut']; ?></td>
                                     <td class="px-4 py-2"><?php echo $productStock['remainingStock']; ?></td>
-                                    <td class="px-4 py-2"><?php echo $productStock['Restock']; ?></td>
+                                    <!-- <td class="px-4 py-2"><?php //echo $productStock['Restock']; ?></td> -->
                                 </tr>
                             <?php } ?>
                         </tbody>

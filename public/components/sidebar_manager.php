@@ -4,10 +4,6 @@
         <i class="fas fa-tachometer-alt"></i>
         <span>Dashboard</span>
     </a>
-    <a href="../profile/profile_list.php" class="flex items-center space-x-4 text-gray-800 hover:bg-gray-200 rounded-lg p-2">
-        <i class="fas fa-user"></i>
-        <span>Profile</span>
-    </a>
     <a href="../products/products_list.php" class="flex items-center space-x-4 text-gray-800 hover:bg-gray-200 rounded-lg p-2">
         <i class="fas fa-shopping-cart"></i>
         <span>Products</span>
@@ -18,7 +14,7 @@
     </a>
     <a href="../stocks/stocks_analysis.php" class="flex items-center space-x-4 text-gray-800 hover:bg-gray-200 rounded-lg p-2">
         <i class="fa-solid fa-chart-area"></i>
-        <span>Restock Analysis</span>
+        <span>Restock</span>
     </a>
     <a href="#" onclick="confirmLogout()" class="flex items-center space-x-4 text-gray-800 hover:bg-gray-200 rounded-lg p-2">
         <i class="fa-solid fa-right-from-bracket"></i>

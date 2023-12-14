@@ -265,13 +265,13 @@ require_once('../../database/connection.php');
                     $remainingStockCategoryNoRestockProbabilities = calculateConditionalProbability($restockCountsByRemainingStockCategory, $restockTrueCount, 'NoRestock');
 
                     // Function to generate a table from a nested associative array
-                    function generateNestedTable($data, $title)
+                    function generateNestedTable($data, $title, $titleCategory)
                     {
                         echo "<h3 class='text-xl font-semibold mb-2'>$title</h3>";
                         echo "<table class='border-collapse border border-gray-400 w-full'>";
                         echo "<thead>";
                         echo "<tr>";
-                        echo "<th class='border border-gray-400 px-4 py-2'>Category</th>";
+                        echo "<th class='border border-gray-400 px-4 py-2'>$titleCategory</th>";
                         echo "<th class='border border-gray-400 px-4 py-2'>$title</th>";
                         echo "</tr>";
                         echo "</thead>";
@@ -289,24 +289,24 @@ require_once('../../database/connection.php');
                     }
 
                     // Display counts for Restock dan NoRestock by BrandID
-                    generateNestedTable($brandIDRestockProbabilities, 'Restock');
-                    generateNestedTable($brandIDNoRestockProbabilities, 'NoRestock');
+                    generateNestedTable($brandIDRestockProbabilities, 'Restock', 'BrandID');
+                    generateNestedTable($brandIDNoRestockProbabilities, 'NoRestock', 'BrandID');
 
                     // Display counts for Restock dan NoRestock by sizeID
-                    generateNestedTable($sizeIDRestockProbabilities, 'Restock');
-                    generateNestedTable($sizeIDNoRestockProbabilities, 'NoRestock');
+                    generateNestedTable($sizeIDRestockProbabilities, 'Restock', 'sizeID');
+                    generateNestedTable($sizeIDNoRestockProbabilities, 'NoRestock', 'sizeID');
 
                     // Display counts for Restock dan NoRestock by colorID
-                    generateNestedTable($colorIDRestockProbabilities, 'Restock');
-                    generateNestedTable($colorIDNoRestockProbabilities, 'NoRestock');
+                    generateNestedTable($colorIDRestockProbabilities, 'Restock', 'colorID');
+                    generateNestedTable($colorIDNoRestockProbabilities, 'NoRestock', 'colorID');
 
                     // Display counts for Restock dan NoRestock by productID
-                    generateNestedTable($productIDRestockProbabilities, 'Restock');
-                    generateNestedTable($productIDNoRestockProbabilities, 'NoRestock');
+                    generateNestedTable($productIDRestockProbabilities, 'Restock', 'productID');
+                    generateNestedTable($productIDNoRestockProbabilities, 'NoRestock','productID');
 
                     // Display counts for Restock dan NoRestock by remainingStockCategory
-                    generateNestedTable($remainingStockCategoryRestockProbabilities, 'Restock');
-                    generateNestedTable($remainingStockCategoryNoRestockProbabilities, 'NoRestock');
+                    generateNestedTable($remainingStockCategoryRestockProbabilities, 'Restock', 'remainingStockCategory');
+                    generateNestedTable($remainingStockCategoryNoRestockProbabilities, 'NoRestock', 'remainingStockCategory');
 
                     // Fetch data from MonthlyProductStockTests
                     $sqlMonthlyProductStockTests = "SELECT * FROM MonthlyProductStockTests";
@@ -379,6 +379,14 @@ require_once('../../database/connection.php');
                         echo "<td class='border border-gray-300 px-4 py-2'>{$row['RemainingStock']}</td>";
                         echo "<td class='border border-gray-300 px-4 py-2'>$naiveBayesPrediction</td>";
                         echo "</tr>";
+
+                        // Update NaiveBayesPrediction in the database for the current row
+                        $updateQuery = "UPDATE MonthlyProductStockTests 
+                                        SET NaiveBayesPrediction = $naiveBayesPrediction 
+                                        WHERE MonthlyStockTestID = {$row['MonthlyStockTestID']}";
+
+                        // Execute the update query
+                        $conn->query($updateQuery);
                     }
 
                     echo "</tbody>";
