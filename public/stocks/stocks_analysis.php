@@ -82,7 +82,8 @@ $managerInfo = mysqli_fetch_assoc($result);
                         while ($row = mysqli_fetch_assoc($result)) {
                             $truncatedProductName = substr($row['ProductName'], 0, 15);
                             echo "<tr>";
-                            echo "<td class='py-2 px-4 border-b'>{$truncatedProductName}</td>";
+                            // echo "<td class='py-2 px-4 border-b'>{$truncatedProductName}</td>";
+                            echo "<td class='py-2 px-4 border-b'>{$row['ProductName']}</td>";
                             echo "<td class='py-2 px-4 border-b'>{$row['ColorName']}</td>";
                             echo "<td class='py-2 px-4 border-b'>{$row['BrandName']}</td>";
                             echo "<td class='py-2 px-4 border-b'>{$row['SizeName']}</td>";
