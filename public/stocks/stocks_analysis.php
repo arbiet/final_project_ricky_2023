@@ -57,6 +57,7 @@ $managerInfo = mysqli_fetch_assoc($result);
                 <table class="min-w-full bg-white border border-gray-300">
                     <thead>
                         <tr>
+                            <th class="py-2 px-4 border-b">No</th>
                             <th class="py-2 px-4 border-b">Product</th>
                             <th class="py-2 px-4 border-b">Color</th>
                             <th class="py-2 px-4 border-b">Brand</th>
@@ -78,11 +79,13 @@ $managerInfo = mysqli_fetch_assoc($result);
                                 JOIN Brands b ON m.BrandID = b.BrandID
                                 JOIN Sizes size ON m.SizeID = size.SizeID";
                         $result = mysqli_query($conn, $query);
-
+                        $n = 0;
                         while ($row = mysqli_fetch_assoc($result)) {
                             $truncatedProductName = substr($row['ProductName'], 0, 15);
+                            $n++;
                             echo "<tr>";
                             // echo "<td class='py-2 px-4 border-b'>{$truncatedProductName}</td>";
+                            echo "<td class='py-2 px-4 border-b'>{$n}</td>";
                             echo "<td class='py-2 px-4 border-b'>{$row['ProductName']}</td>";
                             echo "<td class='py-2 px-4 border-b'>{$row['ColorName']}</td>";
                             echo "<td class='py-2 px-4 border-b'>{$row['BrandName']}</td>";

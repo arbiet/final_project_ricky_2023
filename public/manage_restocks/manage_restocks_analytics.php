@@ -14,9 +14,11 @@ require_once('../../database/connection.php');
             mps.*, 
             b.BrandName, 
             s.SizeName, 
-            c.ColorName
+            c.ColorName,
+            p.ProductName
         FROM MonthlyProductStocks mps
         LEFT JOIN Brands b ON mps.BrandID = b.BrandID
+        LEFT JOIN Products p ON mps.ProductID = p.ProductID
         LEFT JOIN Sizes s ON mps.SizeID = s.SizeID
         LEFT JOIN Colors c ON mps.ColorID = c.ColorID
     ";
@@ -38,6 +40,15 @@ require_once('../../database/connection.php');
     $n = 0; // Total data points
     $restockTrueCount = 0; // Count of Restock True
     $restockFalseCount = 0; // Count of Restock False
+    // Initialize arrays to store names
+    $brandNames = array();
+    $sizeNames = array();
+    $colorNames = array();
+    $productNames = array();
+    $remainingStockCategoryNames = array(
+        "<=6" => "Kurang dari sama dengan 6",
+        ">6" => "Lebih dari 6"
+    );
 
     while ($row = $resultMonthlyProductStocks->fetch_assoc()) {
         $n++;
@@ -52,6 +63,13 @@ require_once('../../database/connection.php');
         $brandName = $row['BrandName'];
         $sizeName = $row['SizeName'];
         $colorName = $row['ColorName'];
+        $productName = $row['ProductName'];
+
+        // Save names in respective arrays
+        $brandNames[$brandID] = $brandName;
+        $sizeNames[$sizeID] = $sizeName;
+        $colorNames[$colorID] = $colorName;
+        $productNames[$productID] = $productName;
 
         // Count Restock occurrences by BrandID
         if (!isset($restockCountsByBrandID[$brandID])) {
@@ -180,13 +198,14 @@ require_once('../../database/connection.php');
                     echo "<h2 class='text-2xl font-semibold mb-2'>MonthlyProductStocks Counts</h2>";
 
                     // Function to generate a table from an associative array
-                    function generateTable($data, $title, $titleCategory)
+                    function generateTable($data, $title, $titleCategory, $names)
                     {
                         echo "<h3 class='text-xl font-semibold mb-2'>$title</h3>";
                         echo "<table class='border-collapse border border-gray-400 w-full'>";
                         echo "<thead>";
                         echo "<tr>";
                         echo "<th class='border border-gray-400 px-4 py-2'>$titleCategory</th>";
+                        echo "<th class='border border-gray-400 px-4 py-2'>Name</th>";
                         echo "<th class='border border-gray-400 px-4 py-2'>Restock</th>";
                         echo "<th class='border border-gray-400 px-4 py-2'>NoRestock</th>";
                         echo "</tr>";
@@ -196,6 +215,11 @@ require_once('../../database/connection.php');
                         foreach ($data as $category => $counts) {
                             echo "<tr>";
                             echo "<td class='border border-gray-400 px-4 py-2'>$category</td>";
+
+                            // Check if the name exists before using it
+                            $name = isset($names[$category]) ? $names[$category] : 'N/A';
+
+                            echo "<td class='border border-gray-400 px-4 py-2'>$name</td>";
                             echo "<td class='border border-gray-400 px-4 py-2'>" . $counts['Restock'] . "</td>";
                             echo "<td class='border border-gray-400 px-4 py-2'>" . $counts['NoRestock'] . "</td>";
                             echo "</tr>";
@@ -205,20 +229,22 @@ require_once('../../database/connection.php');
                         echo "</table>";
                     }
 
+                    // Assuming $brandNames, $sizeNames, $colorNames, $productNames are arrays containing ID => Name mappings
+
                     // Display counts for Restock by BrandID
-                    generateTable($restockCountsByBrandID, 'Restock Counts by BrandID', 'BrandID');
+                    generateTable($restockCountsByBrandID, 'Restock Counts by BrandID', 'BrandID', $brandNames);
 
                     // Display counts for Restock by SizeID
-                    generateTable($restockCountsBySizeID, 'Restock Counts by SizeID', 'SizeID');
+                    generateTable($restockCountsBySizeID, 'Restock Counts by SizeID', 'SizeID', $sizeNames);
 
                     // Display counts for Restock by ColorID
-                    generateTable($restockCountsByColorID, 'Restock Counts by ColorID', 'ColorID');
+                    generateTable($restockCountsByColorID, 'Restock Counts by ColorID', 'ColorID', $colorNames);
 
                     // Display counts for Restock by ProductID
-                    generateTable($restockCountsByProductID, 'Restock Counts by ProductID','ProductID');
+                    generateTable($restockCountsByProductID, 'Restock Counts by ProductID', 'ProductID', $productNames);
 
                     // Display counts for Restock by RemainingStockCategory
-                    generateTable($restockCountsByRemainingStockCategory, 'Restock Counts by RemainingStockCategory','RemainingStockCategory');
+                    generateTable($restockCountsByRemainingStockCategory, 'Restock Counts by RemainingStockCategory','RemainingStockCategory', $remainingStockCategoryNames);
 
                     // Calculate and display probabilities Condition-Based Hypotheses P(X|Ci)
                     echo "<h2 class='text-2xl font-semibold mb-2'>Probabilities Condition-Based Hypotheses P(X|Ci)</h2>";
@@ -265,22 +291,37 @@ require_once('../../database/connection.php');
                     $remainingStockCategoryNoRestockProbabilities = calculateConditionalProbability($restockCountsByRemainingStockCategory, $restockTrueCount, 'NoRestock');
 
                     // Function to generate a table from a nested associative array
-                    function generateNestedTable($data, $title, $titleCategory)
+                    function generateNestedTable($dataRestock, $dataNoRestock, $titleRestock, $titleNoRestock, $titleCategory, $names)
                     {
-                        echo "<h3 class='text-xl font-semibold mb-2'>$title</h3>";
+                        echo "<h3 class='text-xl font-semibold mb-2'>$titleCategory</h3>";
                         echo "<table class='border-collapse border border-gray-400 w-full'>";
                         echo "<thead>";
                         echo "<tr>";
                         echo "<th class='border border-gray-400 px-4 py-2'>$titleCategory</th>";
-                        echo "<th class='border border-gray-400 px-4 py-2'>$title</th>";
+                        echo "<th class='border border-gray-400 px-4 py-2'>$titleRestock</th>";
+                        echo "<th class='border border-gray-400 px-4 py-2'>$titleNoRestock</th>";
                         echo "</tr>";
                         echo "</thead>";
                         echo "<tbody>";
 
-                        foreach ($data as $category => $counts) {
+                        foreach ($dataRestock as $category => $countsRestock) {
                             echo "<tr>";
                             echo "<td class='border border-gray-400 px-4 py-2'>$category</td>";
-                            echo "<td class='border border-gray-400 px-4 py-2'>" . $counts[$title] . "</td>";
+
+                            // Check if the name exists before using it
+                            $name = isset($names[$category]) ? $names[$category] : 'N/A';
+
+                            echo "<td class='border border-gray-400 px-4 py-2'>$name</td>";
+                            echo "<td class='border border-gray-400 px-4 py-2'>" . $countsRestock[$titleRestock] . "</td>";
+
+                            // Check if the category exists in the NoRestock data
+                            if (isset($dataNoRestock[$category])) {
+                                echo "<td class='border border-gray-400 px-4 py-2'>" . $dataNoRestock[$category][$titleNoRestock] . "</td>";
+                            } else {
+                                // If not, display 0 for NoRestock
+                                echo "<td class='border border-gray-400 px-4 py-2'>0</td>";
+                            }
+
                             echo "</tr>";
                         }
 
@@ -288,25 +329,22 @@ require_once('../../database/connection.php');
                         echo "</table>";
                     }
 
+                    // Assuming $brandNames, $sizeNames, $colorNames, $productNames are arrays containing ID => Name mappings
+
                     // Display counts for Restock dan NoRestock by BrandID
-                    generateNestedTable($brandIDRestockProbabilities, 'Restock', 'BrandID');
-                    generateNestedTable($brandIDNoRestockProbabilities, 'NoRestock', 'BrandID');
+                    generateNestedTable($brandIDRestockProbabilities, $brandIDNoRestockProbabilities, 'Restock', 'NoRestock', 'BrandID', $brandNames);
 
-                    // Display counts for Restock dan NoRestock by sizeID
-                    generateNestedTable($sizeIDRestockProbabilities, 'Restock', 'sizeID');
-                    generateNestedTable($sizeIDNoRestockProbabilities, 'NoRestock', 'sizeID');
+                    // Display counts for Restock dan NoRestock by SizeID
+                    generateNestedTable($sizeIDRestockProbabilities, $sizeIDNoRestockProbabilities, 'Restock', 'NoRestock', 'SizeID', $sizeNames);
 
-                    // Display counts for Restock dan NoRestock by colorID
-                    generateNestedTable($colorIDRestockProbabilities, 'Restock', 'colorID');
-                    generateNestedTable($colorIDNoRestockProbabilities, 'NoRestock', 'colorID');
+                    // Display counts for Restock dan NoRestock by ColorID
+                    generateNestedTable($colorIDRestockProbabilities, $colorIDNoRestockProbabilities, 'Restock', 'NoRestock', 'ColorID', $colorNames);
 
-                    // Display counts for Restock dan NoRestock by productID
-                    generateNestedTable($productIDRestockProbabilities, 'Restock', 'productID');
-                    generateNestedTable($productIDNoRestockProbabilities, 'NoRestock','productID');
+                    // Display counts for Restock dan NoRestock by ProductID
+                    generateNestedTable($productIDRestockProbabilities, $productIDNoRestockProbabilities, 'Restock', 'NoRestock', 'ProductID', $productNames);
 
-                    // Display counts for Restock dan NoRestock by remainingStockCategory
-                    generateNestedTable($remainingStockCategoryRestockProbabilities, 'Restock', 'remainingStockCategory');
-                    generateNestedTable($remainingStockCategoryNoRestockProbabilities, 'NoRestock', 'remainingStockCategory');
+                    // Display counts for Restock dan NoRestock by RemainingStockCategory
+                    generateNestedTable($remainingStockCategoryRestockProbabilities, $remainingStockCategoryNoRestockProbabilities, 'Restock', 'NoRestock', 'RemainingStockCategory', $remainingStockCategoryNames);
 
                     // Fetch data from MonthlyProductStockTests
                     $sqlMonthlyProductStockTests = "SELECT * FROM MonthlyProductStockTests";
@@ -318,7 +356,7 @@ require_once('../../database/connection.php');
                     echo "<table class='min-w-full bg-white border border-gray-300'>";
                     echo "<thead>";
                     echo "<tr>";
-                    echo "<th class='border border-gray-300 px-4 py-2'>MonthlyStockTestID</th>";
+                    echo "<th class='border border-gray-300 px-4 py-2'>ID</th>";
                     echo "<th class='border border-gray-300 px-4 py-2'>ProductID</th>";
                     echo "<th class='border border-gray-300 px-4 py-2'>StockID</th>";
                     echo "<th class='border border-gray-300 px-4 py-2'>ColorID</th>";
@@ -364,21 +402,22 @@ require_once('../../database/connection.php');
 
                         // Assign the prediction based on the higher score
                         $naiveBayesPrediction = ($restockScore > $noRestockScore) ? 1 : 0;
-
+                        
                         // Output the row with Naive Bayes Prediction
                         echo "<tr>";
                         echo "<td class='border border-gray-300 px-4 py-2'>{$row['MonthlyStockTestID']}</td>";
-                        echo "<td class='border border-gray-300 px-4 py-2'>{$row['ProductID']}</td>";
+                        echo "<td class='border border-gray-300 px-4 py-2'>" . ($productNames[$row['ProductID']] ?? 'N/A') . "</td>";
                         echo "<td class='border border-gray-300 px-4 py-2'>{$row['StockID']}</td>";
-                        echo "<td class='border border-gray-300 px-4 py-2'>{$row['ColorID']}</td>";
-                        echo "<td class='border border-gray-300 px-4 py-2'>{$row['BrandID']}</td>";
-                        echo "<td class='border border-gray-300 px-4 py-2'>{$row['SizeID']}</td>";
+                        echo "<td class='border border-gray-300 px-4 py-2'>" . ($colorNames[$row['ColorID']] ?? 'N/A') . "</td>";
+                        echo "<td class='border border-gray-300 px-4 py-2'>" . ($brandNames[$row['BrandID']] ?? 'N/A') . "</td>";
+                        echo "<td class='border border-gray-300 px-4 py-2'>" . ($sizeNames[$row['SizeID']] ?? 'N/A') . "</td>";
                         echo "<td class='border border-gray-300 px-4 py-2'>{$row['Month']}</td>";
                         echo "<td class='border border-gray-300 px-4 py-2'>{$row['TotalStockIn']}</td>";
                         echo "<td class='border border-gray-300 px-4 py-2'>{$row['TotalStockOut']}</td>";
                         echo "<td class='border border-gray-300 px-4 py-2'>{$row['RemainingStock']}</td>";
                         echo "<td class='border border-gray-300 px-4 py-2'>$naiveBayesPrediction</td>";
                         echo "</tr>";
+
 
                         // Update NaiveBayesPrediction in the database for the current row
                         $updateQuery = "UPDATE MonthlyProductStockTests 

@@ -20,31 +20,10 @@ $query = "SELECT p.*, MAX(dt.TransactionDate) AS LastTransactionDate
           FROM Products p
           LEFT JOIN Stocks s ON p.ProductID = s.ProductID
           LEFT JOIN DailyTransactions dt ON s.StockID = dt.StockID
-          WHERE dt.TransactionDate < LAST_DAY(NOW() + INTERVAL 1 DAY) - INTERVAL 1 MONTH
+        --   WHERE dt.TransactionDate < LAST_DAY(NOW() + INTERVAL 1 DAY) - INTERVAL 1 MONTH
           GROUP BY p.ProductID
           ORDER BY LastTransactionDate DESC";
 
-$result = $conn->query($query);
-
-// Count the total number of rows
-$rowCount = $result->num_rows;
-
-// Set the number of rows to display per page
-$rowsPerPage = 10;
-
-// Calculate the total number of pages
-$totalPage = ceil($rowCount / $rowsPerPage);
-
-// Get the current page or set it to 1 if not set
-$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
-
-// Calculate the offset for the query
-$offset = ($page - 1) * $rowsPerPage;
-
-// Modify the query to include pagination
-$query .= " LIMIT $offset, $rowsPerPage";
-
-// Execute the modified query
 $result = $conn->query($query);
 
 ?>
@@ -251,6 +230,7 @@ $result = $conn->query($query);
                     <table class="min-w-full border border-gray-300 divide-y divide-gray-300">
                         <thead class="bg-gray-200">
                             <tr>
+                                <th class="px-4 py-2">No</th>
                                 <th class="px-4 py-2">Product ID</th>
                                 <th class="px-4 py-2">Stock ID</th>
                                 <th class="px-4 py-2">Color ID</th>
@@ -264,14 +244,71 @@ $result = $conn->query($query);
                             </tr>
                         </thead>
                         <tbody>
-                            <?php foreach ($allProductStock as $productStock) { 
+                            <?php
+                            // Assuming $allProductStock is an array of products with ProductID, ColorID, BrandID, and SizeID
+                            $productIds = array_column($allProductStock, 'ProductID');
+                            $colorIds = array_column($allProductStock, 'ColorID');
+                            $brandIds = array_column($allProductStock, 'BrandID');
+                            $sizeIds = array_column($allProductStock, 'SizeID');
+
+                            $productIdsString = implode(',', $productIds);
+                            $colorIdsString = implode(',', $colorIds);
+                            $brandIdsString = implode(',', $brandIds);
+                            $sizeIdsString = implode(',', $sizeIds);
+
+
+                            // Fetch all necessary product data in one query
+                            $sql = "SELECT `ProductID`, `ProductName` FROM `Products` WHERE `ProductID` IN ($productIdsString)";
+                            $colorSql = "SELECT `ColorID`, `ColorName` FROM `Colors` WHERE `ColorID` IN ($colorIdsString)";
+                            $brandSql = "SELECT `BrandID`, `BrandName` FROM `Brands` WHERE `BrandID` IN ($brandIdsString)";
+                            $sizeSql = "SELECT `SizeID`, `SizeName` FROM `Sizes` WHERE `SizeID` IN ($sizeIdsString)";
+                            
+                            $productResult = mysqli_query($conn, $sql);
+                            $colorResult = mysqli_query($conn, $colorSql);
+                            $brandResult = mysqli_query($conn, $brandSql);
+                            $sizeResult = mysqli_query($conn, $sizeSql);
+
+                            // Create an associative array to map ProductID to ProductName
+                            $productNameMap = array();
+                            while ($row = mysqli_fetch_assoc($productResult)) {
+                                $productNameMap[$row['ProductID']] = $row['ProductName'];
+                            }
+                            $colorNameMap = array();
+                            while ($colorRow = mysqli_fetch_assoc($colorResult)) {
+                                $colorNameMap[$colorRow['ColorID']] = $colorRow['ColorName'];
+                            }
+
+                            $brandNameMap = array();
+                            while ($brandRow = mysqli_fetch_assoc($brandResult)) {
+                                $brandNameMap[$brandRow['BrandID']] = $brandRow['BrandName'];
+                            }
+
+                            $sizeNameMap = array();
+                            while ($sizeRow = mysqli_fetch_assoc($sizeResult)) {
+                                $sizeNameMap[$sizeRow['SizeID']] = $sizeRow['SizeName'];
+                            }
+
+                            
+                            $n = 0;
+                            foreach ($allProductStock as $productStock) {
+                            $n++;
+                            $productId = $productStock['ProductID'];
+                            $colorId = $productStock['ColorID'];
+                            $brandId = $productStock['BrandID'];
+                            $sizeId = $productStock['SizeID'];
+                            
+                            $productName = isset($productNameMap[$productId]) ? $productNameMap[$productId] : 'N/A';
+                            $colorName = isset($colorNameMap[$colorId]) ? $colorNameMap[$colorId] : 'N/A';
+                            $brandName = isset($brandNameMap[$brandId]) ? $brandNameMap[$brandId] : 'N/A';
+                            $sizeName = isset($sizeNameMap[$sizeId]) ? $sizeNameMap[$sizeId] : 'N/A'; 
                                 ?>
                                 <tr>
-                                    <td class="px-4 py-2"><?php echo $productStock['ProductID']; ?></td>
+                                    <td class="px-4 py-2"><?php echo $n; ?></td>
+                                    <td class="px-4 py-2"><?php echo $productName ?></td>
                                     <td class="px-4 py-2"><?php echo $productStock['StockID']; ?></td>
-                                    <td class="px-4 py-2"><?php echo $productStock['ColorID']; ?></td>
-                                    <td class="px-4 py-2"><?php echo $productStock['BrandID']; ?></td>
-                                    <td class="px-4 py-2"><?php echo $productStock['SizeID']; ?></td>
+                                    <td class="px-4 py-2"><?php echo $colorName ?></td>
+                                    <td class="px-4 py-2"><?php echo $brandName ?></td>
+                                    <td class="px-4 py-2"><?php echo $sizeName ?></td>
                                     <td class="px-4 py-2"><?php echo $productStock['Month']; ?></td>
                                     <td class="px-4 py-2"><?php echo $productStock['TotalStockIn']; ?></td>
                                     <td class="px-4 py-2"><?php echo $productStock['TotalStockOut']; ?></td>
@@ -328,6 +365,7 @@ $result = $conn->query($query);
                     <table class="min-w-full border border-gray-300 divide-y divide-gray-300">
                         <thead class="bg-gray-200">
                             <tr>
+                                <th class="px-4 py-2">No</th>
                                 <th class="px-4 py-2">Product ID</th>
                                 <th class="px-4 py-2">Stock ID</th>
                                 <th class="px-4 py-2">Color ID</th>
@@ -341,13 +379,26 @@ $result = $conn->query($query);
                             </tr>
                         </thead>
                         <tbody>
-                            <?php foreach ($allProductStockLast as $productStock) { ?>
+                            <?php
+                            $n = 0;
+                            foreach ($allProductStockLast as $productStock) {
+                            $productId = $productStock['ProductID'];
+                            $colorId = $productStock['ColorID'];
+                            $brandId = $productStock['BrandID'];
+                            $sizeId = $productStock['SizeID'];
+                            
+                            $productName = isset($productNameMap[$productId]) ? $productNameMap[$productId] : 'N/A';
+                            $colorName = isset($colorNameMap[$colorId]) ? $colorNameMap[$colorId] : 'N/A';
+                            $brandName = isset($brandNameMap[$brandId]) ? $brandNameMap[$brandId] : 'N/A';
+                            $sizeName = isset($sizeNameMap[$sizeId]) ? $sizeNameMap[$sizeId] : 'N/A'; 
+                            $n++ ?>
                                 <tr>
-                                    <td class="px-4 py-2"><?php echo $productStock['ProductID']; ?></td>
+                                    <td class="px-4 py-2"><?php echo $n; ?></td>
+                                    <td class="px-4 py-2"><?php echo $productName ?></td>
                                     <td class="px-4 py-2"><?php echo $productStock['StockID']; ?></td>
-                                    <td class="px-4 py-2"><?php echo $productStock['ColorID']; ?></td>
-                                    <td class="px-4 py-2"><?php echo $productStock['BrandID']; ?></td>
-                                    <td class="px-4 py-2"><?php echo $productStock['SizeID']; ?></td>
+                                    <td class="px-4 py-2"><?php echo $colorName ?></td>
+                                    <td class="px-4 py-2"><?php echo $brandName ?></td>
+                                    <td class="px-4 py-2"><?php echo $sizeName ?></td>
                                     <td class="px-4 py-2"><?php echo $productStock['Month']; ?></td>
                                     <td class="px-4 py-2"><?php echo $productStock['TotalStockIn']; ?></td>
                                     <td class="px-4 py-2"><?php echo $productStock['TotalStockOut']; ?></td>
