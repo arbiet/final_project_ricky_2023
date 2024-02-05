@@ -63,10 +63,11 @@ $result = $conn->query($query);
                             $brandId = $row['BrandID'];
 
                             // Get all stocks for the current product
-                            $allStocksQuery = "SELECT s.SizeID, sz.SizeName, s.ColorID, c.ColorName, s.Quantity, s.StockID, s.ProductID
+                            $allStocksQuery = "SELECT s.SizeID, sz.SizeName, s.ColorID, c.ColorName, s.Quantity, s.StockID, s.ProductID, p.Price
                                                 FROM Stocks s
                                                 INNER JOIN Sizes sz ON s.SizeID = sz.SizeID
                                                 INNER JOIN Colors c ON s.ColorID = c.ColorID
+                                                INNER JOIN Products p ON s.ProductID = p.ProductID
                                                 WHERE s.ProductID = $productId
                                                 ORDER BY sz.SizeName, c.ColorName";
 
@@ -90,6 +91,7 @@ $result = $conn->query($query);
                                             while ($stockData = $allStocksResult->fetch_assoc()) {
                                                 $stockDataRow = [
                                                     'ProductID' => $stockData['ProductID'],
+                                                    'Price' => $stockData['Price'],
                                                     'StockID' => $stockData['StockID'],
                                                     'SizeName' => $stockData['SizeName'],
                                                     'ColorID' => $stockData['ColorID'],
@@ -121,7 +123,8 @@ $result = $conn->query($query);
                                                         $stockDataRow['transactions'][] = [
                                                             'Month' => date('F', mktime(0, 0, 0, $transaction['Month'], 1)),
                                                             'TotalStockIn' => $transaction['TotalStockIn'],
-                                                            'TotalStockOut' => $transaction['TotalStockOut']
+                                                            'TotalStockOut' => $transaction['TotalStockOut'],
+                                                            'Price' => $stockData['Price'],
                                                         ];
                                                     }
                                                 }
@@ -150,7 +153,8 @@ $result = $conn->query($query);
                                                                 <th class="px-4 py-2">Stock In</th>
                                                                 <th class="px-4 py-2">Stock Out</th>
                                                                 <th class="px-4 py-2">Remaining Stock</th>
-                                                                <th class="px-4 py-2">Restock</th> <!-- Add Restock column header -->
+                                                                <th class="px-4 py-2">Restock</th> 
+                                                                <th class="px-4 py-2">Price</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
@@ -166,7 +170,8 @@ $result = $conn->query($query);
                                                                     <td class="px-4 py-2"><?php echo $transaction['TotalStockIn']; ?></td>
                                                                     <td class="px-4 py-2"><?php echo $transaction['TotalStockOut']; ?></td>
                                                                     <td class="px-4 py-2"><?php echo $remainingStock; ?></td>
-                                                                    <td class="px-4 py-2"><?php echo $restock; ?></td> <!-- Display Restock value -->
+                                                                    <td class="px-4 py-2"><?php echo $restock; ?></td>
+                                                                    <td class="px-4 py-2"><?php echo "Rp." . " ". $transaction['Price']; ?></td> <!-- Display Restock value -->
                                                                 </tr>
                                                                 <?php
                                                                 // Check if there is a next iteration and Remaining Stock is greater than 0
