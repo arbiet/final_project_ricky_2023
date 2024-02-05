@@ -125,6 +125,7 @@ $result = $conn->query($query);
                                                             'TotalStockIn' => $transaction['TotalStockIn'],
                                                             'TotalStockOut' => $transaction['TotalStockOut'],
                                                             'Price' => $stockData['Price'],
+                                                            'TotalOut' => $stockData['Price'] * $transaction['TotalStockOut'],
                                                         ];
                                                     }
                                                 }
@@ -154,16 +155,18 @@ $result = $conn->query($query);
                                                                 <th class="px-4 py-2">Stock Out</th>
                                                                 <th class="px-4 py-2">Remaining Stock</th>
                                                                 <th class="px-4 py-2">Restock</th> 
-                                                                <th class="px-4 py-2">Price</th>
+                                                                <th class="px-4 py-2">Total Penjualan</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
                                                             <?php
                                                             $transactionsCount = count($stockDataRow['transactions']);
+                                                            $totalPenjualan = 0;
                                                             for ($i = 0; $i < $transactionsCount; $i++) {
                                                                 $transaction = $stockDataRow['transactions'][$i];
                                                                 $remainingStock = $transaction['TotalStockIn'] - $transaction['TotalStockOut'];
-                                                                $restock = $remainingStock < 6 ? 'True' : 'False'; // Determine Restock value
+                                                                $restock = $remainingStock < 6 ? 'True' : 'False'; // Determine Restock valu
+                                                                $totalPenjualan += $transaction['TotalOut'];
                                                                 ?>
                                                                 <tr>
                                                                     <td class="px-4 py-2"><?php echo $transaction['Month']; ?></td>
@@ -171,7 +174,7 @@ $result = $conn->query($query);
                                                                     <td class="px-4 py-2"><?php echo $transaction['TotalStockOut']; ?></td>
                                                                     <td class="px-4 py-2"><?php echo $remainingStock; ?></td>
                                                                     <td class="px-4 py-2"><?php echo $restock; ?></td>
-                                                                    <td class="px-4 py-2"><?php echo "Rp." . " ". $transaction['Price']; ?></td> <!-- Display Restock value -->
+                                                                    <td class="px-4 py-2"><?php echo "Rp." . " ". number_format($transaction['TotalOut'], 2, ',', '.'); ?></td> <!-- Display Restock value -->
                                                                 </tr>
                                                                 <?php
                                                                 // Check if there is a next iteration and Remaining Stock is greater than 0
@@ -180,6 +183,12 @@ $result = $conn->query($query);
                                                                     $stockDataRow['transactions'][$i + 1]['TotalStockIn'] += $remainingStock;
                                                                 }
                                                             }
+                                                            ?>
+                                                            <tr>
+                                                                <td colspan="5" class="px-4 py-2 text-right font-bold">Total : </td> <!-- Display Restock value -->
+                                                                <td  class="px-4 py-2 text-"><?php echo "Rp." . " ". number_format($totalPenjualan, 2, ',', '.'); ?></td> <!-- Display Restock value -->
+                                                            </tr>
+                                                            <?php
                                                             // Loop through each transaction for the current stock
                                                             foreach ($stockDataRow['transactions'] as $transaction) {
                                                                 $currentProductStock = [];  // Initialize an array for the current transaction
